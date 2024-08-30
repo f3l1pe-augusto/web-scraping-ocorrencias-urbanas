@@ -3,9 +3,11 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 def scrape_news(url, search_term):
     driver = configure_driver()
@@ -25,12 +27,13 @@ def load_page(driver, url, max_clicks=20):
     logging.info(f"Título da página: {driver.title}")
     logging.info("Carregando notícias...")
 
-    for click in range(max_clicks):
+    wait = WebDriverWait(driver, 10)
+
+    for _ in range(max_clicks):
         try:
             driver.execute_script("window.scrollBy(0, 2000);")
-            element = driver.find_element(By.CSS_SELECTOR, 'span.button')
+            element = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, 'span.button')))
             element.click()
-            time.sleep(1)
         except Exception as e:
             logging.error(f"Ocorreu um erro ao carregar a página: {e}")
             break
@@ -56,7 +59,7 @@ def parse_news(html_content, search_term):
             logging.info(f"Link da reportagem: {link}")
 
     if count == 0:
-        logging.info("Não há registro recentes.")
+        logging.info("Nenhuma notícia recente encontrada para o termo de pesquisa.")
 
 if __name__ == "__main__":
     url_band = 'https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias'
