@@ -27,7 +27,7 @@ Este projeto realiza a extração de notícias do site da Band da região de Bau
     pip install -r requirements.txt
     ```
 
-4. Baixe o [ChromeDriver](https://developer.chrome.com/docs/chromedriver/downloads?hl=pt-br) e adicione-o ao seu PATH.
+4. Baixe o [ChromeDriver](https://developer.chrome.com/docs/chromedriver/downloads?hl=pt-br) e adicione o caminho para o arquivo executável ao seu PATH.
 
 ## Uso
 
