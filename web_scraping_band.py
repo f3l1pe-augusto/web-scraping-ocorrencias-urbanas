@@ -1,10 +1,10 @@
 import logging
+import time
+
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -27,13 +27,12 @@ def load_page(driver, url, max_clicks=20):
     logging.info(f"Título da página: {driver.title}")
     logging.info("Carregando notícias...")
 
-    wait = WebDriverWait(driver, 10)
-
     for _ in range(max_clicks):
         try:
             driver.execute_script("window.scrollBy(0, 2000);")
-            element = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, 'span.button')))
+            element = driver.find_element(By.CSS_SELECTOR, 'span.button')
             element.click()
+            time.sleep(1)
         except Exception as e:
             logging.error(f"Ocorreu um erro ao carregar a página: {e}")
             break
