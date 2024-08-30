@@ -36,11 +36,11 @@ Este projeto realiza a extração de notícias do site da Band da região de Bau
     python web_scraping_band.py
     ```
 
-2. Insira a cidade ou ocorrência pela qual deseja filtrar as notícias quando solicitado.
+2. Insira a cidade ou ocorrência pela qual deseja filtrar as notícias quando solicitado pelo script.
 
 ## Estrutura do Projeto
 
-- `web_scraping_band.py`: Script principal que executa a função `scrape_news que realiza a extração das notícias.
+- `web_scraping_band.py`: Script principal que executa a função `scrape_news`, responsável pela extração das notícias.
 - `requirements.txt`: Lista de dependências do projeto.
 - `.gitignore`: Arquivo para ignorar arquivos e pastas desnecessárias no controle de versão.
 
