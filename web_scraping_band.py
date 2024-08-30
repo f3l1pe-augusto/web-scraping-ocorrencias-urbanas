@@ -1,13 +1,31 @@
 import logging
 import time
+import colorlog
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+log_colors = {
+    'DEBUG': 'cyan',
+    'INFO': 'green',
+    'WARNING': 'yellow',
+    'ERROR': 'red',
+    'CRITICAL': 'bold_red',
+}
 
+formatter = colorlog.ColoredFormatter(
+    "%(log_color)s%(asctime)s - %(levelname)s - %(message)s",
+    log_colors=log_colors
+)
+
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+
+logger = logging.getLogger()
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
 
 def scrape_news(url, search_term):
     driver = configure_driver()
@@ -24,8 +42,8 @@ def configure_driver():
 
 def load_page(driver, url, max_clicks=20):
     driver.get(url)
-    logging.info(f"Título da página: {driver.title}")
-    logging.info("Carregando notícias...")
+    logger.info(f"Título da página: {driver.title}")
+    logger.info("Carregando notícias...")
 
     for _ in range(max_clicks):
         try:
@@ -34,7 +52,7 @@ def load_page(driver, url, max_clicks=20):
             element.click()
             time.sleep(1)
         except Exception as e:
-            logging.error(f"Ocorreu um erro ao carregar a página: {e}")
+            logger.error(f"Ocorreu um erro ao carregar a página: {e}")
             break
 
     return driver.page_source
@@ -43,7 +61,7 @@ def parse_news(html_content, search_term):
     soup = BeautifulSoup(html_content, 'lxml')
     all_news = soup.find_all('div', class_='box-cards')
 
-    logging.info(f"Ocorrências sobre {search_term}")
+    logger.info(f"Ocorrências sobre {search_term}")
 
     count = 0
     for index, single_news in enumerate(all_news, start=1):
@@ -53,12 +71,12 @@ def parse_news(html_content, search_term):
 
         if search_term.lower() in news_title.lower():
             count += 1
-            logging.info(f"Notícia {count}: {news_title.strip()}")
-            logging.info(f"Data da publicação: {published_date}")
-            logging.info(f"Link da reportagem: {link}")
+            logger.info(f"Notícia {count}: {news_title.strip()}")
+            logger.info(f"Data da publicação: {published_date}")
+            logger.info(f"Link da reportagem: {link}")
 
     if count == 0:
-        logging.info("Nenhuma notícia recente encontrada para o termo de pesquisa.")
+        logger.info("Nenhuma notícia recente encontrada para o termo de pesquisa.")
 
 if __name__ == "__main__":
     url_band = 'https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias'
