@@ -17,7 +17,7 @@ def scrape_news(url):
 
     click = 0 # Contador de cliques no botão "Carregar mais"
     while True:
-        if click == 10:
+        if click == 20:
             break
 
         driver.execute_script("window.scrollBy(0, 2000);") # Scroll down
