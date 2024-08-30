@@ -12,8 +12,8 @@ Este projeto realiza a extração de notícias do site da Band da região de Bau
 
 1. Clone o repositório:
     ```sh
-    git clone https://github.com/f3l1pe-augusto/web-scraping-band.git
-    cd web-scraping-band
+    git clone https://github.com/f3l1pe-augusto/web-scraping-noticias.git
+    cd web-scraping-noticias
     ```
 
 2. Crie um ambiente virtual e ative-o:
