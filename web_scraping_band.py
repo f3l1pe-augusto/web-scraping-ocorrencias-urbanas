@@ -47,9 +47,9 @@ def load_page(driver, url, max_clicks=20):
 
     for _ in range(max_clicks):
         try:
-            driver.execute_script("window.scrollBy(0, 2000);")
-            element = driver.find_element(By.CSS_SELECTOR, 'span.button')
-            element.click()
+            driver.execute_script("window.scrollBy(0, 3000);")
+            load_more_button = driver.find_element(By.XPATH, "//*[contains(text(), 'Carregar mais')]")
+            load_more_button.click()
             time.sleep(1)
         except Exception as e:
             logger.error(f"Ocorreu um erro ao carregar a página: {e}")
@@ -69,7 +69,7 @@ def parse_news(html_content, search_term):
         published_date = single_news.find('time', class_='published').text
         link = single_news.find('a', class_='link')['href']
 
-        if search_term.lower() in news_title.lower():
+        if search_term.lower() in news_title.lower() and "bauru" in news_title.lower():
             count += 1
             logger.info(f"Notícia {count}: {news_title.strip()}")
             logger.info(f"Data da publicação: {published_date}")
@@ -80,5 +80,5 @@ def parse_news(html_content, search_term):
 
 if __name__ == "__main__":
     url_band = 'https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias'
-    occurrence = input("Digite uma cidade ou ocorrência pela qual deseja filtrar (Bauru, Marília, furto): ")
+    occurrence = input("Digite uma ocorrência pela qual deseja filtrar na cidade de Bauru (ex: roubo, furto, falta de luz ou água): ")
     scrape_news(url_band, occurrence)
