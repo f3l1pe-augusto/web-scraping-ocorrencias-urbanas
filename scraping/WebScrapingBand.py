@@ -1,31 +1,11 @@
-import logging
 import time
-import colorlog
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
-log_colors = {
-    'DEBUG': 'cyan',
-    'INFO': 'green',
-    'WARNING': 'yellow',
-    'ERROR': 'red',
-    'CRITICAL': 'bold_red',
-}
-
-formatter = colorlog.ColoredFormatter(
-    "%(log_color)s%(asctime)s - %(levelname)s - %(message)s",
-    log_colors=log_colors
-)
-
-handler = logging.StreamHandler()
-handler.setFormatter(formatter)
-
-logger = logging.getLogger()
-logger.addHandler(handler)
-logger.setLevel(logging.INFO)
+from log.LoggerConfig import LoggerConfig
 
 def scrape_news(url, search_term):
     driver = configure_driver()
@@ -81,4 +61,8 @@ def parse_news(html_content, search_term):
 if __name__ == "__main__":
     url_band = 'https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias'
     occurrence = input("Digite uma ocorrência pela qual deseja filtrar na cidade de Bauru (ex: roubo, furto, falta de luz ou água): ")
+
+    logger_config = LoggerConfig()
+    logger = logger_config.get_logger()
+
     scrape_news(url_band, occurrence)

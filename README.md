@@ -31,9 +31,9 @@ Este projeto realiza a extração de notícias do site da Band da região de Bau
 
 ## Uso
 
-1. Execute o script `web_scraping_band.py`:
+1. Execute o script `WebScrapingBand.py`:
     ```sh
-    python web_scraping_band.py
+    python WebScrapingBand.py
     ```
 
 2. Insira a cidade ou ocorrência pela qual deseja filtrar as notícias quando solicitado pelo script.
