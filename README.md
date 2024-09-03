@@ -1,6 +1,6 @@
 # Web Scraping de Notícias da Band
 
-Este projeto realiza a extração de notícias do site da Band da região de Bauru e Marília utilizando as bibliotecas BeautifulSoup e Selenium.
+Este projeto realiza a extração de notícias do site da Band na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium.
 
 ## Requisitos
 
@@ -36,7 +36,7 @@ Este projeto realiza a extração de notícias do site da Band da região de Bau
     python WebScrapingBand.py
     ```
 
-2. Insira a cidade ou ocorrência pela qual deseja filtrar as notícias quando solicitado pelo script.
+2. Insira a ocorrência pela qual deseja filtrar as notícias quando solicitado pelo script.
 
 ## Estrutura do Projeto
 
