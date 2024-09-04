@@ -33,14 +33,17 @@ Este projeto realiza a extração de notícias do site da Band na cidade de Baur
 
 1. Execute o script `WebScrapingBand.py`:
     ```sh
-    python WebScrapingBand.py
+    python WebScrapingBandUseCase.py
     ```
 
 2. Insira a ocorrência pela qual deseja filtrar as notícias quando solicitado pelo script.
 
 ## Estrutura do Projeto
 
-- `web_scraping_band.py`: Script principal que executa a função `scrape_news`, responsável pela extração das notícias.
+- `README.md`: Documentação do projeto.
+- `WebScrapingBandUseCase.py`: Script principal que executa a extração das notícias.
+- `ScrapeNewsUseCase.py`: Classe principal que contém a função main.
+- `Log.py`: Classe  que contém a classe `Log` para gerar logs de execução.
 - `requirements.txt`: Lista de dependências do projeto.
 - `.gitignore`: Usado para ignorar arquivos e pastas desnecessárias no controle de versão.
 

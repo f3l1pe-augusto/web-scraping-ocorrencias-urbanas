@@ -1,29 +1,29 @@
 import time
-
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
-from log.LoggerConfig import LoggerConfig
 
-def scrape_news(url, search_term):
+def scrape_news_band(url, search_term, log):
     driver = configure_driver()
     try:
-        html_content = load_page(driver, url)
-        parse_news(html_content, search_term)
+        html_content = load_page(driver, url, log)
+        parse_news(html_content, search_term, log)
     finally:
         driver.quit()
+
 
 def configure_driver():
     options = Options()
     options.add_argument("--headless")
     return webdriver.Chrome(options=options)
 
-def load_page(driver, url, max_clicks=20):
+
+def load_page(driver, url, log, max_clicks=15):
     driver.get(url)
-    logger.info(f"Título da página: {driver.title}")
-    logger.info("Carregando notícias...")
+    log.info(f"Título da página: {driver.title}")
+    log.info("Carregando notícias...")
 
     for _ in range(max_clicks):
         try:
@@ -32,16 +32,17 @@ def load_page(driver, url, max_clicks=20):
             load_more_button.click()
             time.sleep(1)
         except Exception as e:
-            logger.error(f"Ocorreu um erro ao carregar a página: {e}")
+            log.error(f"Ocorreu um erro ao carregar a página: {e}")
             break
 
     return driver.page_source
 
-def parse_news(html_content, search_term):
+
+def parse_news(html_content, search_term, log):
     soup = BeautifulSoup(html_content, 'lxml')
     all_news = soup.find_all('div', class_='box-cards')
 
-    logger.info(f"Ocorrências sobre {search_term}")
+    log.info(f"Ocorrências sobre {search_term}")
 
     count = 0
     for index, single_news in enumerate(all_news, start=1):
@@ -51,18 +52,9 @@ def parse_news(html_content, search_term):
 
         if search_term.lower() in news_title.lower() and "bauru" in news_title.lower():
             count += 1
-            logger.info(f"Notícia {count}: {news_title.strip()}")
-            logger.info(f"Data da publicação: {published_date}")
-            logger.info(f"Link da reportagem: {link}")
+            log.info(f"Notícia {count}: {news_title.strip()}")
+            log.info(f"Data da publicação: {published_date}")
+            log.info(f"Link da reportagem: {link}")
 
     if count == 0:
-        logger.info("Nenhuma notícia recente encontrada para o termo de pesquisa.")
-
-if __name__ == "__main__":
-    url_band = 'https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias'
-    occurrence = input("Digite uma ocorrência pela qual deseja filtrar na cidade de Bauru (ex: roubo, furto, falta de luz ou água): ")
-
-    logger_config = LoggerConfig()
-    logger = logger_config.get_logger()
-
-    scrape_news(url_band, occurrence)
+        log.info("Nenhuma notícia recente encontrada para o termo de pesquisa.")
