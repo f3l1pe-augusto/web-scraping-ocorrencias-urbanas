@@ -1,6 +1,6 @@
-# Web Scraping de Notícias da Band
+# Web Scraping de Notícias
 
-Este projeto realiza a extração de notícias do site da Band na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium.
+Este projeto realiza a extração de notícias de diversos sites na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium.
 
 ## Requisitos
 
