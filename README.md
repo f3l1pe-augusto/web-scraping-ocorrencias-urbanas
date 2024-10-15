@@ -31,9 +31,9 @@ Este projeto realiza a extração de notícias de diversos sites na cidade de Ba
 
 ## Uso
 
-1. Execute o script `ScrapeNewsUseCase.py`:
+1. Execute o script `Main.py`:
     ```sh
-    python ScrapeNewsUseCase.py
+    python Main.py
     ```
 
 2. Insira a ocorrência pela qual deseja filtrar as notícias quando solicitado pelo script.
@@ -41,8 +41,8 @@ Este projeto realiza a extração de notícias de diversos sites na cidade de Ba
 ## Estrutura do Projeto
 
 - `README.md`: Documentação do projeto.
-- `WebScrapingBandUseCase.py`: Script que executa a extração das notícias da Band.
-- `ScrapeNewsUseCase.py`: Classe principal que contém a função main.
+- `WebScrapingUseCase.py`: Script que executa a extração de notícias dos sites Band, G1 e JCNET.
+- `Main.py`: Classe principal que contém a função main.
 - `LoggerConfig.py`: Classe  que contém a classe `Log` para gerar logs de execução.
 - `requirements.txt`: Lista de dependências do projeto.
 - `.gitignore`: Usado para ignorar arquivos e pastas desnecessárias no controle de versão.
