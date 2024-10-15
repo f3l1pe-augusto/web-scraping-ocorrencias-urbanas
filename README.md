@@ -1,6 +1,6 @@
 # Web Scraping de Notícias
 
-Este projeto realiza a extração de notícias dos sites Band, G! e JCNET na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium.
+Este projeto realiza a extração de notícias dos sites da Band, G1 e JCNET na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium.
 
 ## Requisitos
 
