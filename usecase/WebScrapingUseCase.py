@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 
 MAX = int(os.getenv('MAX_CLICKS', 10))
 
-def configure_driver(headless=False):
+def configure_driver(headless=True):
     options = Options()
     if headless:
         options.add_argument("--headless")
