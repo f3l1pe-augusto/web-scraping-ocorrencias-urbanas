@@ -41,7 +41,7 @@ Este projeto realiza a extração de notícias dos sites da Band, G1 e JCNET na 
 ## Estrutura do Projeto
 
 - `README.md`: Documentação do projeto.
-- `WebScrapingUseCase.py`: Script que executa a extração de notícias dos sites Band, G1 e JCNET.
+- `WebScrapingUseCase.py`: Caso de uso que executa a extração de notícias dos sites Band, G1 e JCNET.
 - `Main.py`: Classe principal que contém a função main.
 - `LoggerConfig.py`: Classe  que contém a classe `Log` para gerar logs de execução.
 - `requirements.txt`: Lista de dependências do projeto.
