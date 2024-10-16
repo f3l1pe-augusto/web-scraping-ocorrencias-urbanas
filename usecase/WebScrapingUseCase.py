@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from unidecode import unidecode
 
 MAX = int(os.getenv('MAX_CLICKS', 10))
 
@@ -35,7 +36,6 @@ def load_page(driver, url, log, max_clicks=MAX):
 
     return driver.page_source
 
-
 def parse_news(html_content, search_term, log, site):
     soup = BeautifulSoup(html_content, 'lxml')
     if site == 'band':
@@ -49,6 +49,7 @@ def parse_news(html_content, search_term, log, site):
         return
 
     log.info(f"Ocorrências sobre {search_term}")
+    search_term_normalized = unidecode(search_term.lower())
 
     count = 0
     for index, single_news in enumerate(all_news, start=1):
@@ -69,7 +70,8 @@ def parse_news(html_content, search_term, log, site):
                 log.error("Site não suportado")
                 return
 
-            if search_term.lower() in news_title.lower() and "bauru" in news_title.lower():
+            news_title_normalized = unidecode(news_title.lower())
+            if search_term_normalized in news_title_normalized and "bauru" in news_title_normalized:
                 count += 1
                 log.info(f"Notícia {count}: {news_title.strip()}")
                 log.info(f"Data da publicação: {published_date}")
