@@ -6,13 +6,20 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from unidecode import unidecode
 
-MAX = int(os.getenv('MAX_CLICKS', 10))
+MAX = int(os.getenv('MAX_CLICKS', 15))
 
 def configure_driver(headless=True):
     options = Options()
     if headless:
         options.add_argument("--headless")
     return webdriver.Chrome(options=options)
+
+def close_cookie_banner_g1(driver, log):
+    try:
+        cookie_banner = driver.find_element(By.XPATH, "//*[contains(text(), 'Prosseguir')]")
+        cookie_banner.click()
+    except Exception as e:
+        log.info(f"Banner de cookies não encontrado ou já aceito: {e}")
 
 def load_page(driver, url, log, max_clicks=MAX):
     driver.get(url)
@@ -21,15 +28,16 @@ def load_page(driver, url, log, max_clicks=MAX):
 
     for _ in range(max_clicks):
         try:
-            driver.execute_script("window.scrollBy(0, 18000);")
+            driver.execute_script("window.scrollBy(0, 10000);")
             if "band.uol" in driver.current_url:
                 load_more_button = driver.find_element(By.XPATH, "//*[contains(text(), 'Carregar mais')]")
             elif "g1.globo" in driver.current_url:
+                close_cookie_banner_g1(driver, log)
                 load_more_button = driver.find_element(By.XPATH, "//*[contains(text(), 'Veja mais')]")
             else:
                 continue
             load_more_button.click()
-            time.sleep(2)
+            time.sleep(1)
         except Exception as e:
             log.error(f"Ocorreu um erro ao carregar a página: {e}")
             break
@@ -55,17 +63,25 @@ def parse_news(html_content, search_term, log, site):
     for index, single_news in enumerate(all_news, start=1):
         try:
             if site == 'band':
-                news_title = single_news.find('h2', class_="title").text if single_news.find('h2', class_="title") else "Título não encontrado"
-                published_date = single_news.find('time', class_='published').text if single_news.find('time', class_='published') else "Data não encontrada"
-                link = single_news.find('a', class_='link')['href'] if single_news.find('a', class_='link') else "#"
+                news_title = single_news.find('h2', class_="title").text \
+                    if single_news.find('h2', class_="title") else "Título não encontrado"
+                published_date = single_news.find('time', class_='published').text \
+                    if single_news.find('time', class_='published') else "Data não encontrada"
+                link = single_news.find('a', class_='link')['href'] \
+                    if single_news.find('a', class_='link') else "#"
             elif site == 'g1':
-                news_title = single_news.find('a', class_='feed-post-link').text if single_news.find('a', class_='feed-post-link') else "Título não encontrado"
-                published_date = single_news.find('span', class_='feed-post-datetime').text if single_news.find('span', class_='feed-post-datetime') else "Data não encontrada"
-                link = single_news.find('a', class_='feed-post-link')['href'] if single_news.find('a', class_='feed-post-link') else "#"
+                news_title = single_news.find('a', class_='feed-post-link').text \
+                    if single_news.find('a', class_='feed-post-link') else "Título não encontrado"
+                published_date = single_news.find('span', class_='feed-post-datetime').text \
+                    if single_news.find('span', class_='feed-post-datetime') else "Data não encontrada"
+                link = single_news.find('a', class_='feed-post-link')['href'] \
+                    if single_news.find('a', class_='feed-post-link') else "#"
             elif site == 'jcnet':
-                news_title = single_news.find('h3').text if single_news.find('h3') else "Título não encontrado"
+                news_title = single_news.find('h3').text \
+                    if single_news.find('h3') else "Título não encontrado"
                 published_date = 'Não disponível'
-                link = single_news.find('a', class_='hoverActive')['href'] if single_news.find('a', class_='hoverActive') else "#"
+                link = single_news.find('a', class_='hoverActive')['href'] \
+                    if single_news.find('a', class_='hoverActive') else "#"
             else:
                 log.error("Site não suportado")
                 return
@@ -83,7 +99,6 @@ def parse_news(html_content, search_term, log, site):
 
     if count == 0:
         log.info(f"Nenhuma notícia recente encontrada para o termo de pesquisa no site {site}.")
-
 
 def scrape_news(url, search_term, log, site):
     driver = configure_driver()
