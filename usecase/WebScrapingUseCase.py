@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from unidecode import unidecode
 
-MAX = int(os.getenv('MAX_CLICKS', 15))
+MAX = int(os.getenv('MAX_CLICKS', 20))
 
 def configure_driver(headless=True):
     options = Options()
@@ -37,7 +37,7 @@ def load_page(driver, url, log, max_clicks=MAX):
             else:
                 continue
             load_more_button.click()
-            time.sleep(1)
+            time.sleep(2)
         except Exception as e:
             log.error(f"Ocorreu um erro ao carregar a página: {e}")
             break
@@ -70,8 +70,8 @@ def parse_news(html_content, search_term, log, site):
                 link = single_news.find('a', class_='link')['href'] \
                     if single_news.find('a', class_='link') else "#"
             elif site == 'g1':
-                news_title = single_news.find('a', class_='feed-post-link').text \
-                    if single_news.find('a', class_='feed-post-link') else "Título não encontrado"
+                news_title = single_news.find('p', {'elementtiming': 'text-csr'}).text \
+                    if single_news.find('p', {'elementtiming': 'text-csr'}) else "Título não encontrado"
                 published_date = single_news.find('span', class_='feed-post-datetime').text \
                     if single_news.find('span', class_='feed-post-datetime') else "Data não encontrada"
                 link = single_news.find('a', class_='feed-post-link')['href'] \
