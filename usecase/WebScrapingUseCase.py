@@ -44,7 +44,30 @@ def load_page(driver, url, log, max_clicks=MAX):
 
     return driver.page_source
 
-def parse_news(html_content, search_term, log, site):
+
+def get_news_content(driver, link, log):
+    try:
+        driver.get(link)
+        time.sleep(2)
+        page_content = driver.page_source
+        soup = BeautifulSoup(page_content, 'lxml')
+
+        if "band.uol" in link:
+            content = soup.find('h2', class_='subtitle').text
+        elif "g1.globo" in link:
+            content = soup.find('h2', class_='content-head__subtitle').text
+        elif "sampi.net" in link:
+            content = soup.find('div', class_='texto0 mt-4').text
+        else:
+            log.error("Site não suportado para extração de conteúdo")
+            return "Conteúdo não disponível"
+
+        return content.strip()
+    except Exception as e:
+        log.error(f"Erro ao recuperar o conteúdo da notícia: {e}")
+        return "Erro ao recuperar o conteúdo"
+
+def parse_news(html_content, search_term, log, site, driver):
     soup = BeautifulSoup(html_content, 'lxml')
     if site == 'band':
         all_news = soup.find_all('div', class_='box-cards')
@@ -93,6 +116,9 @@ def parse_news(html_content, search_term, log, site):
                 log.info(f"Data da publicação: {published_date}")
                 log.info(f"Link da reportagem: {link}")
 
+                content = get_news_content(driver, link, log)
+                log.info(f"Conteúdo da notícia: {content}")
+
         except Exception as e:
             log.error(f"Erro ao processar notícia {index}: {e}")
             continue
@@ -104,7 +130,7 @@ def scrape_news(url, search_term, log, site):
     driver = configure_driver()
     try:
         html_content = load_page(driver, url, log)
-        parse_news(html_content, search_term, log, site)
+        parse_news(html_content, search_term, log, site, driver)
     finally:
         driver.quit()
         log.info("Driver fechado com sucesso.")
