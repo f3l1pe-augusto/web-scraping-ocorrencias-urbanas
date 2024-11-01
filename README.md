@@ -1,6 +1,6 @@
 # Web Scraping de Notícias
 
-Este projeto realiza a extração de notícias dos sites da Band, G1 e JCNET na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium.
+Este projeto realiza a extração de notícias dos sites da Band, G1 e JCNET na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium, e salva as notícias extraídas em um arquivo CSV para análise posterior.
 
 ## Requisitos
 
@@ -37,6 +37,8 @@ Este projeto realiza a extração de notícias dos sites da Band, G1 e JCNET na 
     ```
 
 2. Insira a ocorrência pela qual deseja filtrar as notícias quando solicitado pelo script.
+   
+4. As notícias filtradas serão salvas automaticamente em um arquivo CSV chamado `news_data.csv`, permitindo analise dos dados.
 
 ## Estrutura do Projeto
 
