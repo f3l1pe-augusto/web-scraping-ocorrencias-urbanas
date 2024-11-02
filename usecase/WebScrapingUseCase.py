@@ -45,6 +45,22 @@ def load_page(driver, url, log, max_clicks=MAX):
 
   return driver.page_source
 
+
+def get_jcnet_date(driver, link, log):
+  try:
+    driver.get(link)
+    time.sleep(2)
+    page_content = driver.page_source
+    soup = BeautifulSoup(page_content, 'lxml')
+
+    date_element = soup.find('time')
+    date = date_element['datetime'] if date_element and date_element.has_attr('datetime') else "Data não encontrada"
+
+    return date
+  except Exception as e:
+    log.error(f"Erro ao recuperar a data da notícia: {e}")
+    return "Data não encontrada"
+
 def get_news_content(driver, link, log):
   try:
     driver.get(link)
@@ -107,35 +123,38 @@ def parse_news(html_content, search_term, log, site, driver):
       if site == 'band':
         news_title = single_news.find('h2', class_="title").text if single_news.find('h2', class_="title") \
           else "Título não encontrado"
-        published_date = single_news.find('time', class_='published').text if single_news.find('time', class_='published') \
-          else "Data não encontrada"
         link = single_news.find('a', class_='link')['href'] if single_news.find('a', class_='link') \
           else "#"
+        published_date = single_news.find('time', class_='published').text if single_news.find('time', class_='published') \
+          else "Data não encontrada"
       elif site == 'g1':
         news_title = single_news.find('p', {'elementtiming': 'text-csr'}).text if single_news.find('p', {'elementtiming': 'text-csr'}) \
           else "Título não encontrado"
-        published_date = single_news.find('span', class_='feed-post-datetime').text if single_news.find('span',class_='feed-post-datetime') \
-          else "Data não encontrada"
         link = single_news.find('a', class_='feed-post-link')['href'] if single_news.find('a',class_='feed-post-link') \
           else "#"
+        published_date = single_news.find('span', class_='feed-post-datetime').text if single_news.find('span',class_='feed-post-datetime') \
+          else "Data não encontrada"
       elif site == 'jcnet':
         news_title = single_news.find('h3').text if single_news.find('h3') \
           else "Título não encontrado"
-        published_date = 'Não disponível'
         link = single_news.find('a', class_='hoverActive')['href'] if single_news.find('a', class_='hoverActive') \
           else "#"
+        published_date = ''
       else:
         log.error("Site não suportado")
         return []
 
-      parsed_date = dateparser.parse(published_date)
-      if parsed_date:
-        published_date = parsed_date.strftime('%d/%m/%Y')
-      else:
-        published_date = "Data não encontrada"
-
       news_title_normalized = unidecode(news_title.lower())
       if search_term_normalized in news_title_normalized and "bauru" in news_title_normalized:
+        if site == 'jcnet':
+          published_date = get_jcnet_date(driver, link, log)
+
+        parsed_date = dateparser.parse(published_date)
+        if parsed_date:
+          published_date = parsed_date.strftime('%d/%m/%Y')
+        else:
+          published_date = "Data não encontrada"
+
         content = get_news_content(driver, link, log)
         news_list.append({
           "title": news_title.strip(),
@@ -154,11 +173,19 @@ def parse_news(html_content, search_term, log, site, driver):
   return news_list
 
 def scrape_news(url, search_term, log, site):
-  driver = configure_driver()
-  try:
-    html_content = load_page(driver, url, log)
-    news_list = parse_news(html_content, search_term, log, site, driver)
-    return news_list
-  finally:
-    driver.quit()
-    log.info("Driver fechado com sucesso.")
+    driver = configure_driver()
+    try:
+        html_content = load_page(driver, url, log)
+        news_list = parse_news(html_content, search_term, log, site, driver)
+
+        unique_news_list = []
+        seen_titles = set()
+        for news in news_list:
+            if news['title'] not in seen_titles:
+                unique_news_list.append(news)
+                seen_titles.add(news['title'])
+
+        return unique_news_list
+    finally:
+        driver.quit()
+        log.info("Driver fechado com sucesso.")

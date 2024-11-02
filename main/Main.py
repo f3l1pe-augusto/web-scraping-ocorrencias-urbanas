@@ -1,5 +1,6 @@
 from usecase.WebScrapingUseCase import scrape_news
 from log.LoggerConfig import LoggerConfig
+import os
 import pandas as pd
 
 class ScrapeNewsUseCase:
@@ -25,6 +26,8 @@ if __name__ == "__main__":
 
   df = pd.DataFrame(all_news)
 
-  csv_file_path = 'news_data.csv'
+  os.makedirs('data', exist_ok=True)
+
+  csv_file_path = '../data/news_data.csv'
   df.to_csv(csv_file_path, index=False)
   scrape_news_use_case.logger.info(f"Arquivo CSV salvo com sucesso em: {csv_file_path}")

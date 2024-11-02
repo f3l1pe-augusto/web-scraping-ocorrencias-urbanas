@@ -164,4 +164,5 @@ cython_debug/
 .idea/
 
 # Arquivo CSV gerado pelo código
-/main/news_data.csv
+/data/news_data.csv
+/log/news_data.log
