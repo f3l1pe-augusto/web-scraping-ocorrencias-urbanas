@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from unidecode import unidecode
 import dateparser
 
-MAX = int(os.getenv('MAX_CLICKS', 20))
+MAX = int(os.getenv('MAX_CLICKS', 10))
 
 def configure_driver(headless=True):
   options = Options()
@@ -53,11 +53,29 @@ def get_news_content(driver, link, log):
     soup = BeautifulSoup(page_content, 'lxml')
 
     if "band.uol" in link:
-      content = soup.find('h2', class_='subtitle').text
+      content = ' '.join([
+        p.text
+        for p in soup.find_all('p')
+        if 'author__name' not in p.get('class', [])
+        and 'Band Multi' not in p.text
+        and 'Siga a Band Multi nas redes' not in p.text
+        and 'Band.com.br' not in p.text
+        and 'Siga a Band.com.br nas redes' not in p.text])
     elif "g1.globo" in link:
-      content = soup.find('h2', class_='content-head__subtitle').text
+      content = ' '.join([
+        p.text
+        for p in soup.find_all('p', class_='content-text__container')
+        if '📲 Participe do canal do g1 Bauru e Marília no WhatsApp' not in p.text
+        and 'Veja mais notícias da região no g1 Bauru e Marília' not in p.text])
     elif "sampi.net" in link:
-      content = soup.find('div', class_='texto0 mt-4').text
+      content = ' '.join([
+        p.text
+        for p in soup.find_all('p')
+        if 'Receba as notícias mais relevantes de Bauru e região direto no seu whatsapp. Participe da Comunidade' not in p.text
+        and 'JCNET integra a maior rede de notícias do interior.' not in p.text
+        and 'Notícias que importam onde você estiver' not in p.text
+        and 'mb-1' not in p.get('class', [])
+        and 'text-laranja' not in p.get('class', [])])
     else:
       log.error("Site não suportado para extração de conteúdo")
       return "Conteúdo não disponível"

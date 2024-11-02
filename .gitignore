@@ -162,3 +162,6 @@ cython_debug/
 
 # Arquivos de configuração do PyCharm
 .idea/
+
+# Arquivo CSV gerado pelo código
+/main/news_data.csv
