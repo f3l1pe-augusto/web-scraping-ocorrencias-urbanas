@@ -36,14 +36,14 @@ Este projeto realiza a extração de notícias dos sites da Band, G1 e JCNET na 
     python Main.py
     ```
 
-2. Insira a ocorrência pela qual deseja filtrar as notícias quando solicitado pelo script.
-   
-4. As notícias filtradas serão salvas automaticamente em um arquivo CSV chamado `news_data.csv`, permitindo análise dos dados.
+2. Insira a ocorrência pela qual deseja filtrar as notícias quando solicitado pelo script. 
+
+3. As notícias filtradas serão salvas automaticamente em um arquivo CSV chamado `news_data.csv`, permitindo análise dos dados.
 
 ## Estrutura do Projeto
 
-- `usecase`: Contém a lógica de negócio do projeto e é responsável por orquestrar as operações de extração de notícias.
 - `main`: Script principal do projeto, responsável por executar o programa.
+- `usecase`: Contém a lógica de negócio do projeto e é responsável por orquestrar as operações de extração de notícias.
 - `log`: Contém o arquivo de log do projeto que registra as operações realizadas.
 - `data`: Contém o arquivo CSV onde as notícias extraídas são salvas.
 - `requirements.txt`: Lista de dependências do projeto.

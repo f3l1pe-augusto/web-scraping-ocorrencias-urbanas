@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 from unidecode import unidecode
 import dateparser
 
-MAX = int(os.getenv('MAX_CLICKS', 10))
+MAX = int(os.getenv('MAX_CLICKS', 5))
 
 def configure_driver(headless=True):
   options = Options()

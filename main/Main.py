@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
   df = pd.DataFrame(all_news)
 
-  os.makedirs('data', exist_ok=True)
+  os.makedirs('../data', exist_ok=True)
 
   csv_file_path = '../data/news_data.csv'
   df.to_csv(csv_file_path, index=False)
