@@ -45,7 +45,6 @@ def load_page(driver, url, log, max_clicks=MAX):
 
   return driver.page_source
 
-
 def get_jcnet_date(driver, link, log):
   try:
     driver.get(link)
@@ -60,6 +59,20 @@ def get_jcnet_date(driver, link, log):
   except Exception as e:
     log.error(f"Erro ao recuperar a data da notícia: {e}")
     return "Data não encontrada"
+
+def get_band_subtitle(driver, link, log):
+  try:
+    driver.get(link)
+    time.sleep(2)
+    page_content = driver.page_source
+    soup = BeautifulSoup(page_content, 'lxml')
+
+    subtitle = soup.find('h2', class_='subtitle').text if soup.find('h2', class_='subtitle') else "Subtítulo não encontrado"
+
+    return subtitle
+  except Exception as e:
+    log.error(f"Erro ao recuperar o subtítulo da notícia: {e}")
+    return "Subtítulo não encontrado"
 
 def get_news_content(driver, link, log):
   try:
@@ -121,22 +134,26 @@ def parse_news(html_content, search_term, log, site, driver):
   for index, single_news in enumerate(all_news, start=1):
     try:
       if site == 'band':
-        news_title = single_news.find('h2', class_="title").text if single_news.find('h2', class_="title") \
+        title = single_news.find('h2', class_='title').text if single_news.find('h2', class_='title') \
           else "Título não encontrado"
+        subtitle = ''
         link = single_news.find('a', class_='link')['href'] if single_news.find('a', class_='link') \
           else "#"
         published_date = single_news.find('time', class_='published').text if single_news.find('time', class_='published') \
           else "Data não encontrada"
       elif site == 'g1':
-        news_title = single_news.find('p', {'elementtiming': 'text-csr'}).text if single_news.find('p', {'elementtiming': 'text-csr'}) \
+        title = single_news.find('p', {'elementtiming': 'text-csr'}).text if single_news.find('p', {'elementtiming': 'text-csr'}) \
           else "Título não encontrado"
+        subtitle = single_news.find('div', class_='feed-post-body-resumo').text if single_news.find('div', class_='feed-post-body-resumo') \
+          else "Subtítulo não encontrado"
         link = single_news.find('a', class_='feed-post-link')['href'] if single_news.find('a',class_='feed-post-link') \
           else "#"
         published_date = single_news.find('span', class_='feed-post-datetime').text if single_news.find('span',class_='feed-post-datetime') \
           else "Data não encontrada"
       elif site == 'jcnet':
-        news_title = single_news.find('h3').text if single_news.find('h3') \
+        title = single_news.find('h3', class_='mb-0').text if single_news.find('h3', class_='mb-0') \
           else "Título não encontrado"
+        subtitle = ''
         link = single_news.find('a', class_='hoverActive')['href'] if single_news.find('a', class_='hoverActive') \
           else "#"
         published_date = ''
@@ -144,10 +161,13 @@ def parse_news(html_content, search_term, log, site, driver):
         log.error("Site não suportado")
         return []
 
-      news_title_normalized = unidecode(news_title.lower())
-      if search_term_normalized in news_title_normalized and "bauru" in news_title_normalized:
+      title_normalized = unidecode(title.lower())
+      if search_term_normalized in title_normalized and "bauru" in title_normalized:
         if site == 'jcnet':
           published_date = get_jcnet_date(driver, link, log)
+
+        if site == 'band':
+          subtitle = get_band_subtitle(driver, link, log)
 
         parsed_date = dateparser.parse(published_date)
         if parsed_date:
@@ -157,7 +177,8 @@ def parse_news(html_content, search_term, log, site, driver):
 
         content = get_news_content(driver, link, log)
         news_list.append({
-          "title": news_title.strip(),
+          "title": title.strip(),
+          "subtitle": subtitle.strip(),
           "date": published_date,
           "content": content,
           "site": site
