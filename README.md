@@ -45,7 +45,7 @@ Este projeto realiza a extração de notícias dos sites da Band, G1 e JCNET na 
 - `main`: Script principal do projeto, responsável por executar o programa.
 - `usecase`: Contém a lógica de negócio do projeto e é responsável por orquestrar as operações de extração de notícias.
 - `log`: Contém o arquivo de log do projeto que registra as operações realizadas.
-- `data`: Contém o arquivo CSV onde as notícias extraídas são salvas.
+- `data`: Diretório criado em tempo de execução que contém o arquivo CSV onde as notícias extraídas são salvas.
 - `requirements.txt`: Lista de dependências do projeto.
 - `README.md`: Documentação do projeto.
 - `.gitignore`: Usado para ignorar arquivos e pastas desnecessárias no controle de versão.
