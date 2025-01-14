@@ -6,21 +6,15 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from unidecode import unidecode
 import dateparser
+import requests
 
 MAX = int(os.getenv('MAX_CLICKS', 5))
 
-def configure_driver(headless=True):
+def configure_driver(headless=False):
     options = Options()
     if headless:
         options.add_argument("--headless")
     return webdriver.Chrome(options=options)
-
-def close_cookie_banner_g1(driver, log):
-    try:
-        cookie_banner = driver.find_element(By.XPATH, "//*[contains(text(), 'Prosseguir')]")
-        cookie_banner.click()
-    except Exception as e:
-        log.info(f"Banner de cookies não encontrado ou já aceito: {e}")
 
 def load_page(driver, url, log, max_clicks=MAX):
     driver.get(url)
@@ -44,6 +38,32 @@ def load_page(driver, url, log, max_clicks=MAX):
             break
 
     return driver.page_source
+
+def fetch_wayback_snapshot(url, timestamp=None):
+    base_url = "http://archive.org/wayback/available"
+    params = {"url": url}
+    if timestamp:
+        params["timestamp"] = timestamp
+
+    response = requests.get(base_url, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        snapshots = data.get("archived_snapshots", {})
+        if "closest" in snapshots:
+            return snapshots["closest"]
+        else:
+            return None
+    else:
+        return None
+
+
+def close_cookie_banner_g1(driver, log):
+    try:
+        cookie_banner = driver.find_element(By.XPATH, "//*[contains(text(), 'Prosseguir')]")
+        cookie_banner.click()
+    except Exception as e:
+        log.info(f"Banner de cookies não encontrado ou já aceito: {e}")
 
 def get_jcnet_date(driver, link, log):
     try:
@@ -189,9 +209,20 @@ def parse_news(html_content, search_term, log, site, driver):
             continue
 
     if not news_list:
-        log.info(f"Nenhuma notícia recente encontrada para o termo de pesquisa no site {site}.")
+        log.info(f"Nenhuma notícia encontrada para o termo de pesquisa no site {site}.")
 
     return news_list
+
+def scrape_archived_news(url, timestamp, search_term, log, site):
+    snapshot = fetch_wayback_snapshot(url, timestamp)
+    if not snapshot or not snapshot.get("available", False):
+        log.warning(f"Nenhum snapshot disponível para {url} em {timestamp}.")
+        return []
+
+    archived_url = snapshot["url"]
+    log.info(f"Snapshot encontrado: {archived_url}")
+    return scrape_news(archived_url, search_term, log, site)
+
 
 def scrape_news(url, search_term, log, site):
     driver = configure_driver()

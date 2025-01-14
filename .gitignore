@@ -164,5 +164,6 @@ cython_debug/
 .idea/
 
 # Arquivos gerado pelo código
-/data/news_data.csv
+/data/current_news_data.csv
+/data/old_news_data.csv
 /log/news_data.log
