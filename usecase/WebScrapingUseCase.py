@@ -25,10 +25,10 @@ def load_page(driver, url, log, max_clicks=MAX):
         try:
             driver.execute_script("window.scrollBy(0, 10000);")
             if "band.uol" in driver.current_url:
-                load_more_button = driver.find_element(By.XPATH, "//*[contains(text(), 'Carregar mais')]")
+                load_more_button = driver.find_element(By.CSS_SELECTOR, 'span.button')
             elif "g1.globo" in driver.current_url:
                 close_cookie_banner_g1(driver, log)
-                load_more_button = driver.find_element(By.XPATH, "//*[contains(text(), 'Veja mais')]")
+                load_more_button = driver.find_element(By.CSS_SELECTOR, 'div.load-more')
             else:
                 continue
             load_more_button.click()
@@ -40,7 +40,7 @@ def load_page(driver, url, log, max_clicks=MAX):
     return driver.page_source
 
 def fetch_wayback_snapshot(url, timestamp=None):
-    base_url = "http://archive.org/wayback/available"
+    base_url = "https://archive.org/wayback/available"
     params = {"url": url}
     if timestamp:
         params["timestamp"] = timestamp
@@ -56,7 +56,6 @@ def fetch_wayback_snapshot(url, timestamp=None):
             return None
     else:
         return None
-
 
 def close_cookie_banner_g1(driver, log):
     try:
@@ -222,7 +221,6 @@ def scrape_archived_news(url, timestamp, search_term, log, site):
     archived_url = snapshot["url"]
     log.info(f"Snapshot encontrado: {archived_url}")
     return scrape_news(archived_url, search_term, log, site)
-
 
 def scrape_news(url, search_term, log, site):
     driver = configure_driver()

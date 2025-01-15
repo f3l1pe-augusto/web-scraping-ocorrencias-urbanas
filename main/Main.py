@@ -12,7 +12,7 @@ class ScrapeNewsUseCase:
     @staticmethod
     def get_five_years_ago_date():
         today = datetime.now()
-        five_years_ago = today - timedelta(days=2 * 365)
+        five_years_ago = today - timedelta(days=5 * 365)
         return five_years_ago.strftime('%Y%m%d')
 
     def run(self, url, search_term, site):
@@ -52,4 +52,3 @@ if __name__ == "__main__":
 
     scrape_news_use_case.logger.info(f"Notícias atuais salvas em: {current_news_path}")
     scrape_news_use_case.logger.info(f"Notícias antigas salvas em: {old_news_path}")
-
