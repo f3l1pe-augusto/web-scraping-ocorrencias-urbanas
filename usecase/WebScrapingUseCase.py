@@ -1,16 +1,18 @@
-import os
 import time
+
+import dateparser
+import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from unidecode import unidecode
-import dateparser
-import requests
 
-MAX = int(os.getenv('MAX_CLICKS', 5))
+from util.Util import get_coordinates, extract_address
 
-def configure_driver(headless=False):
+MAX = 10
+
+def configure_driver(headless=True):
     options = Options()
     if headless:
         options.add_argument("--headless")
@@ -133,7 +135,7 @@ def get_news_content(driver, link, log):
         log.error(f"Erro ao recuperar o conteúdo da notícia: {e}")
         return "Erro ao recuperar o conteúdo"
 
-def parse_news(html_content, search_term, log, site, driver):
+def parse_news(html_content, search_term, log, site, driver, google_maps_api_key):
     soup = BeautifulSoup(html_content, 'lxml')
 
     if site == 'band':
@@ -185,22 +187,29 @@ def parse_news(html_content, search_term, log, site, driver):
                 if site == 'jcnet':
                     published_date = get_jcnet_date(driver, link, log)
 
-                if site == 'band':
-                    subtitle = get_band_subtitle(driver, link, log)
-
                 parsed_date = dateparser.parse(published_date)
+
                 if parsed_date:
                     published_date = parsed_date.strftime('%d/%m/%Y')
                 else:
                     published_date = "Data não encontrada"
 
+                if site == 'band':
+                    subtitle = get_band_subtitle(driver, link, log)
+
                 content = get_news_content(driver, link, log)
+
+                address = extract_address(content, log)
+                latitude, longitude = get_coordinates(address, google_maps_api_key, log)
+
                 news_list.append({
                     "title": title.strip(),
                     "subtitle": subtitle.strip(),
                     "date": published_date,
                     "content": content,
-                    "site": site
+                    "site": site,
+                    "latitude": latitude,
+                    "longitude": longitude
                 })
 
         except Exception as e:
@@ -212,7 +221,7 @@ def parse_news(html_content, search_term, log, site, driver):
 
     return news_list
 
-def scrape_archived_news(url, timestamp, search_term, log, site):
+def scrape_archived_news(url, timestamp, search_term, log, site, google_maps_api_key):
     snapshot = fetch_wayback_snapshot(url, timestamp)
     if not snapshot or not snapshot.get("available", False):
         log.warning(f"Nenhum snapshot disponível para {url} em {timestamp}.")
@@ -220,13 +229,13 @@ def scrape_archived_news(url, timestamp, search_term, log, site):
 
     archived_url = snapshot["url"]
     log.info(f"Snapshot encontrado: {archived_url}")
-    return scrape_news(archived_url, search_term, log, site)
+    return scrape_news(archived_url, search_term, log, site, google_maps_api_key)
 
-def scrape_news(url, search_term, log, site):
+def scrape_news(url, search_term, log, site, google_maps_api_key):
     driver = configure_driver()
     try:
         html_content = load_page(driver, url, log)
-        news_list = parse_news(html_content, search_term, log, site, driver)
+        news_list = parse_news(html_content, search_term, log, site, driver, google_maps_api_key)
 
         unique_news_list = []
         seen_titles = set()
