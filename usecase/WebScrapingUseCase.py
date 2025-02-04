@@ -10,9 +10,9 @@ from unidecode import unidecode
 
 from util.Util import get_coordinates, extract_address
 
-MAX = 10
+MAX = 15
 
-def configure_driver(headless=True):
+def configure_driver(headless=False):
     options = Options()
     if headless:
         options.add_argument("--headless")
@@ -135,7 +135,7 @@ def get_news_content(driver, link, log):
         log.error(f"Erro ao recuperar o conteúdo da notícia: {e}")
         return "Erro ao recuperar o conteúdo"
 
-def parse_news(html_content, search_term, log, site, driver, google_maps_api_key):
+def parse_news(html_content, search_terms, log, site, driver, google_maps_api_key):
     soup = BeautifulSoup(html_content, 'lxml')
 
     if site == 'band':
@@ -148,47 +148,62 @@ def parse_news(html_content, search_term, log, site, driver, google_maps_api_key
         log.error("Site não suportado")
         return []
 
-    log.info(f"Ocorrências sobre {search_term}")
-    search_term_normalized = unidecode(search_term.lower())
+    log.info(f"Buscando ocorrências que contenham qualquer um dos termos: {search_terms}")
+
+    # Se search_terms for uma ‘string’, transforma-a numa lista com um único elemento
+    if isinstance(search_terms, str):
+        search_terms = [search_terms]
+
+    # Normaliza os termos de busca (assegura que não sejam iterados caractere a caractere)
+    normalized_search_terms = [unidecode(term.lower()) for term in search_terms]
 
     news_list = []
     for index, single_news in enumerate(all_news, start=1):
         try:
             if site == 'band':
-                title = single_news.find('h2', class_='title').text if single_news.find('h2', class_='title') \
-                    else "Título não encontrado"
+                title = single_news.find('h2', class_='title').text if single_news.find('h2',
+                                                                                        class_='title') else "Título não encontrado"
                 subtitle = ''
-                link = single_news.find('a', class_='link')['href'] if single_news.find('a', class_='link') \
-                    else "#"
-                published_date = single_news.find('time', class_='published').text if single_news.find('time', class_='published') \
-                    else "Data não encontrada"
+                link = single_news.find('a', class_='link')['href'] if single_news.find('a', class_='link') else "#"
+                published_date = single_news.find('time', class_='published').text if single_news.find('time',
+                                                                                                       class_='published') else "Data não encontrada"
             elif site == 'g1':
-                title = single_news.find('p', {'elementtiming': 'text-csr'}).text if single_news.find('p', {'elementtiming': 'text-csr'}) \
-                    else "Título não encontrado"
-                subtitle = single_news.find('div', class_='feed-post-body-resumo').text if single_news.find('div', class_='feed-post-body-resumo') \
-                    else "Subtítulo não encontrado"
-                link = single_news.find('a', class_='feed-post-link')['href'] if single_news.find('a',class_='feed-post-link') \
-                    else "#"
-                published_date = single_news.find('span', class_='feed-post-datetime').text if single_news.find('span',class_='feed-post-datetime') \
-                    else "Data não encontrada"
+                title = single_news.find('p', {'elementtiming': 'text-csr'}).text if single_news.find('p', {
+                    'elementtiming': 'text-csr'}) else "Título não encontrado"
+                subtitle = single_news.find('div', class_='feed-post-body-resumo').text if single_news.find('div',
+                                                                                                            class_='feed-post-body-resumo') else "Subtítulo não encontrado"
+                link = single_news.find('a', class_='feed-post-link')['href'] if single_news.find('a',
+                                                                                                  class_='feed-post-link') else "#"
+                published_date = single_news.find('span', class_='feed-post-datetime').text if single_news.find('span',
+                                                                                                                class_='feed-post-datetime') else "Data não encontrada"
             elif site == 'jcnet':
-                title = single_news.find('h3', class_='mb-0').text if single_news.find('h3', class_='mb-0') \
-                    else "Título não encontrado"
+                title = single_news.find('h3', class_='mb-0').text if single_news.find('h3',
+                                                                                       class_='mb-0') else "Título não encontrado"
                 subtitle = ''
-                link = single_news.find('a', class_='hoverActive')['href'] if single_news.find('a', class_='hoverActive') \
-                    else "#"
+                link = single_news.find('a', class_='hoverActive')['href'] if single_news.find('a',
+                                                                                               class_='hoverActive') else "#"
                 published_date = ''
             else:
                 log.error("Site não suportado")
                 return []
 
+            # Normalização para comparações (tudo em minúsculo e sem acentos)
             title_normalized = unidecode(title.lower())
-            if search_term_normalized in title_normalized and "bauru" in title_normalized:
+
+            subtitle_normalized = unidecode(subtitle.lower())
+
+            # Verifica se a notícia contém pelo menos um dos termos informados
+            search_term = (any(term in title_normalized for term in normalized_search_terms))
+
+            # Verifica se a notícia menciona a cidade de Bauru (no título ou no conteúdo)
+            bauru = "bauru" in title_normalized or "bauru" in subtitle_normalized
+
+            # Apenas adiciona a notícia se atender a ambos os critérios
+            if search_term and bauru:
                 if site == 'jcnet':
                     published_date = get_jcnet_date(driver, link, log)
 
                 parsed_date = dateparser.parse(published_date)
-
                 if parsed_date:
                     published_date = parsed_date.strftime('%d/%m/%Y')
                 else:
@@ -198,10 +213,8 @@ def parse_news(html_content, search_term, log, site, driver, google_maps_api_key
                     subtitle = get_band_subtitle(driver, link, log)
 
                 content = get_news_content(driver, link, log)
-
                 address = extract_address(content, log)
                 latitude, longitude = get_coordinates(address, google_maps_api_key, log)
-
                 news_list.append({
                     "title": title.strip(),
                     "subtitle": subtitle.strip(),
@@ -217,7 +230,7 @@ def parse_news(html_content, search_term, log, site, driver, google_maps_api_key
             continue
 
     if not news_list:
-        log.info(f"Nenhuma notícia encontrada para o termo de pesquisa no site {site}.")
+        log.info(f"Nenhuma notícia encontrada para os termos de pesquisa no site {site}.")
 
     return news_list
 
@@ -231,20 +244,24 @@ def scrape_archived_news(url, timestamp, search_term, log, site, google_maps_api
     log.info(f"Snapshot encontrado: {archived_url}")
     return scrape_news(archived_url, search_term, log, site, google_maps_api_key)
 
-def scrape_news(url, search_term, log, site, google_maps_api_key):
+def scrape_news(url, search_terms, log, site, google_maps_api_key):
     driver = configure_driver()
     try:
         html_content = load_page(driver, url, log)
-        news_list = parse_news(html_content, search_term, log, site, driver, google_maps_api_key)
 
-        unique_news_list = []
+        # Criar um conjunto para armazenar notícias únicas
+        all_news = []
         seen_titles = set()
+
+        log.info(f"Buscando notícias sobre os termos {search_terms} no site {site}...")
+        news_list = parse_news(html_content, search_terms, log, site, driver, google_maps_api_key)
+
         for news in news_list:
             if news['title'] not in seen_titles:
-                unique_news_list.append(news)
+                all_news.append(news)
                 seen_titles.add(news['title'])
 
-        return unique_news_list
+        return all_news
     finally:
         driver.quit()
         log.info("Driver fechado com sucesso.")
