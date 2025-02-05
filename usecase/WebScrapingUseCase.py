@@ -10,9 +10,9 @@ from unidecode import unidecode
 
 from util.Util import get_coordinates, extract_address
 
-MAX = 15
+MAX = 25
 
-def configure_driver(headless=False):
+def configure_driver(headless=True):
     options = Options()
     if headless:
         options.add_argument("--headless")
@@ -192,10 +192,11 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
 
             subtitle_normalized = unidecode(subtitle.lower())
 
-            # Verifica se a notícia contém pelo menos um dos termos informados
-            search_term = (any(term in title_normalized for term in normalized_search_terms))
+            # Verifica se a notícia contém pelo menos um dos termos informados (no título ou subtítulo)
+            search_term = (any(term in title_normalized for term in normalized_search_terms)
+                    or any(term in subtitle_normalized for term in normalized_search_terms))
 
-            # Verifica se a notícia menciona a cidade de Bauru (no título ou no conteúdo)
+            # Verifica se a notícia menciona a cidade de Bauru (no título ou subtítulo)
             bauru = "bauru" in title_normalized or "bauru" in subtitle_normalized
 
             # Apenas adiciona a notícia se atender a ambos os critérios
