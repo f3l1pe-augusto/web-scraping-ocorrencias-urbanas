@@ -27,7 +27,7 @@ def get_coordinates(address, google_maps_api_key, logger):
 
 def extract_address(content, logger):
     # Expressão regular para encontrar endereços
-    address_pattern = r"(Rua|Avenida|Praça|Travessa|Alameda|Vila|Jardim|Parque|Residencial|Conjunto Habitacional)\s+[A-Za-zÀ-ÖØ-öø-ÿ\s]+"
+    address_pattern = r"(Rua|Bairro|Acampamento|Avenida|Praça|Travessa|Alameda|Vila|Jardim|Parque|Residencial|Conjunto Habitacional|Rodovia|Núcleo|Hospital)\s+[A-Za-zÀ-ÖØ-öø-ÿ\s]+"
     match = re.search(address_pattern, content, re.IGNORECASE)
 
     if match:

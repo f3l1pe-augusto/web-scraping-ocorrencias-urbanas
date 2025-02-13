@@ -36,7 +36,7 @@ if __name__ == "__main__":
     scrape_news_use_case = ScrapeNewsUseCase()
 
     # Notícias atuais
-    # news_band = scrape_news_use_case.run(url_band, occurrence, 'band', api_key)
+    # news_band = scrape_news_use_case.run(url_band, search_terms, 'band', api_key)
     news_g1 = scrape_news_use_case.run(url_g1, search_terms, 'g1', api_key)
     # news_jcnet = scrape_news_use_case.run(url_jcnet, search_terms, 'jcnet', api_key)
 
