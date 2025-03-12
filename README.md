@@ -38,13 +38,13 @@ Este projeto realiza a extração de notícias dos sites da Band UOL, G1 Globo e
 
 2. Insira as ocorrências pela qual deseja filtrar as notícias quando solicitado pelo script. 
 
-3. As notícias filtradas serão salvas automaticamente em um arquivo CSV na pasta `data`, permitindo análise dos dados extraídos.
+3. As notícias filtradas serão salvas automaticamente em um arquivo CSV na pasta `data`, permitindo análise posterior dos dados extraídos.
 
 ## Estrutura do Projeto
 
 - `main`: Script principal do projeto, responsável por executar o programa.
 - `usecase`: Contém a lógica de negócio do projeto e é responsável por orquestrar as operações de extração de notícias.
-- `log`: Contém o arquivo de log do projeto que registra as operações realizadas.
+- `log`: Contém o arquivo de configurações de log do projeto que registra as operações realizadas.
 - `data`: Diretório onde contém o arquivo CSV no qual as notícias extraídas serão salvas.
 - `util`: Diretório que contem funções úteis para o projeto que podem ser usadas em outras classes.
 - `requirements.txt`: Lista de dependências do projeto.
