@@ -25,16 +25,23 @@ def load_page(driver, url, log, max_clicks=MAX):
 
     for _ in range(max_clicks):
         try:
-            driver.execute_script("window.scrollBy(0, 10000);")
+            time.sleep(3)
+            driver.execute_script("window.scrollBy(0, 20000);")
             if "band.uol" in driver.current_url:
-                load_more_button = driver.find_element(By.CSS_SELECTOR, 'span.button')
+                load_more_button = driver.find_elements(By.XPATH, "//*[contains(text(), 'Carregar mais')]")
             elif "g1.globo" in driver.current_url:
                 close_cookie_banner_g1(driver, log)
-                load_more_button = driver.find_element(By.CSS_SELECTOR, 'div.load-more')
+                load_more_button = driver.find_elements(By.XPATH, "//*[contains(text(), 'Veja mais')]")
             else:
                 continue
-            load_more_button.click()
-            time.sleep(2)
+
+            if load_more_button:
+                driver.execute_script("arguments[0].scrollIntoView(true);", load_more_button[0])
+                driver.execute_script("arguments[0].click();", load_more_button[0])
+                time.sleep(2)
+            else:
+                log.info("Botão para carregar a página não encontrado.")
+                break
         except Exception as e:
             log.error(f"Ocorreu um erro ao carregar a página: {e}")
             break
@@ -110,7 +117,9 @@ def get_news_content(driver, link, log):
                    and 'Band Multi' not in p.text
                    and 'Siga a Band Multi nas redes' not in p.text
                    and 'Band.com.br' not in p.text
-                   and 'Siga a Band.com.br nas redes' not in p.text])
+                   and 'Siga a Band.com.br nas redes' not in p.text
+                   and 'Utilizamos cookies essenciais e tecnologias semelhantes de acordo com a nossa Política de Privacidade e, ao continuar navegando, você concorda com estas condições.' not in p.text
+                   and 'Bauru e Marília' not in p.text])
         elif "g1.globo" in link:
             content = ' '.join([
                 p.text
