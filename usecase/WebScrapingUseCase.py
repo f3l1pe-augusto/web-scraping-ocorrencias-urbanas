@@ -205,18 +205,22 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
                     subtitle = get_band_subtitle(driver, link, log)
 
                 content = get_news_content(driver, link, log)
-                address = extract_address(content, log)
+                address, address_type = extract_address(content, log)
                 latitude, longitude = get_coordinates(address, google_maps_api_key, log)
-                news_list.append({
-                    "title": title.strip(),
-                    "subtitle": subtitle.strip(),
-                    "date": published_date,
-                    "content": content,
-                    "site": site,
-                    "latitude": latitude,
-                    "longitude": longitude,
-                    "category": search_term if search_term else "Termo não encontrado"
-                })
+
+                if latitude and longitude:
+                    news_list.append({
+                        'title': title.strip(),
+                        'subtitle': subtitle.strip(),
+                        'content': content.strip(),
+                        'published_date': published_date,
+                        'link': link,
+                        'address_type': address_type,
+                        'latitude': latitude,
+                        'longitude': longitude,
+                        'site': site,
+                        'search_term': search_term
+                    })
 
         except Exception as e:
             log.error(f"Erro ao processar notícia {index}: {e}")
