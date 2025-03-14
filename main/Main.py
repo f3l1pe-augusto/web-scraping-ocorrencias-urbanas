@@ -36,9 +36,9 @@ if __name__ == "__main__":
     scrape_news_use_case = ScrapeNewsUseCase()
 
     # Notícias atuais
-    news_band = scrape_news_use_case.run(url_band, search_terms, 'band', api_key)
-    news_g1 = scrape_news_use_case.run(url_g1, search_terms, 'g1', api_key)
-    news_jcnet = scrape_news_use_case.run(url_jcnet, search_terms, 'jcnet', api_key)
+    # band_news = scrape_news_use_case.run(url_band, search_terms, 'band', api_key)
+    g1_news = scrape_news_use_case.run(url_g1, search_terms, 'g1', api_key)
+    # jcnet_news = scrape_news_use_case.run(url_jcnet, search_terms, 'jcnet', api_key)
 
     # Notícias de 5 anos atrás
     # timestamp = scrape_news_use_case.get_five_years_ago_date()
@@ -47,17 +47,17 @@ if __name__ == "__main__":
     # old_news_jcnet = scrape_archived_news(url_jcnet, timestamp, occurrence, scrape_news_use_case.logger, 'jcnet', api_key)
 
     # Consolidação dos dados
-    all_current_news = news_band + news_g1 + news_jcnet
+    dataset_g1_news = g1_news
     # all_old_news = old_news_band + old_news_g1 + old_news_jcnet
 
     # Salvar em CSV
     os.makedirs('../data', exist_ok=True)
 
-    dataset_all_current_news_path = '../data/dataset_all_current_news.csv'
+    dataset_g1_news_path = '../data/dataset_g1_news_news.csv'
     # old_news_path = '../data/old_news_data.csv'
 
-    pd.DataFrame(all_current_news).to_csv(dataset_all_current_news_path, index=False)
+    pd.DataFrame(dataset_g1_news).to_csv(dataset_g1_news_path, index=False)
     # pd.DataFrame(all_old_news).to_csv(old_news_path, index=False)
 
-    scrape_news_use_case.logger.info(f"Notícias atuais salvas em: {dataset_all_current_news_path}")
+    scrape_news_use_case.logger.info(f"Notícias atuais salvas em: {dataset_g1_news_path}")
     # scrape_news_use_case.logger.info(f"Notícias antigas salvas em: {old_news_path}")

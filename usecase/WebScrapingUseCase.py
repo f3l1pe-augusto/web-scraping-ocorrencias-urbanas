@@ -23,7 +23,7 @@ def load_page(driver, url, log, max_clicks=MAX):
     log.info(f"Título da página: {driver.title}")
     log.info("Carregando notícias...")
 
-    for _ in range(max_clicks):
+    for click in range(max_clicks):
         try:
             time.sleep(3)
             driver.execute_script("window.scrollBy(0, 20000);")
@@ -32,12 +32,15 @@ def load_page(driver, url, log, max_clicks=MAX):
             elif "g1.globo" in driver.current_url:
                 close_cookie_banner_g1(driver, log)
                 load_more_button = driver.find_elements(By.XPATH, "//*[contains(text(), 'Veja mais')]")
+            elif "sampi.net" in driver.current_url:
+                break
             else:
                 continue
 
             if load_more_button:
                 driver.execute_script("arguments[0].scrollIntoView(true);", load_more_button[0])
                 driver.execute_script("arguments[0].click();", load_more_button[0])
+                log.info(f"Carregando mais notícias... Aguarde... Click: {click + 1}")
                 time.sleep(2)
             else:
                 log.info("Botão para carregar a página não encontrado.")
@@ -71,7 +74,7 @@ def close_cookie_banner_g1(driver, log):
         cookie_banner = driver.find_element(By.XPATH, "//*[contains(text(), 'Prosseguir')]")
         cookie_banner.click()
     except Exception as e:
-        log.info(f"Banner de cookies não encontrado ou já aceito: {e}")
+        log.info(f"Banner de cookies não encontrado ou aceito: {e}")
 
 def get_jcnet_date(driver, link, log):
     try:
@@ -152,7 +155,7 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
     elif site == 'g1':
         all_news = soup.find_all('div', class_='feed-post-body')
     elif site == 'jcnet':
-        all_news = soup.find_all('div', class_='col-8')
+        all_news = soup.find_all('div', class_='col-24')
     else:
         log.error("Site não suportado")
         return []

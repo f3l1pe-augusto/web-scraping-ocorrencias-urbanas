@@ -1,6 +1,6 @@
 # Web Scraping de Notícias
 
-Este projeto realiza a extração de notícias dos sites da Band UOL, G1 Globo e JCNET Sampi na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium, e salva as notícias extraídas em um arquivo CSV para análise posterior.
+Este projeto realiza a extração de notícias dos sites da Band UOL, G1 Globo e JCNET Sampi na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium, e salva as notícias extraídas num arquivo CSV para análise posterior.
 
 ## Requisitos
 
@@ -38,7 +38,7 @@ Este projeto realiza a extração de notícias dos sites da Band UOL, G1 Globo e
 
 2. Insira as ocorrências pela qual deseja filtrar as notícias quando solicitado pelo script. 
 
-3. As notícias filtradas serão salvas automaticamente em um arquivo CSV na pasta `data`, permitindo análise posterior dos dados extraídos.
+3. As notícias filtradas serão salvas automaticamente num arquivo CSV na pasta `data`, permitindo análise posterior dos dados extraídos.
 
 ## Estrutura do Projeto
 
@@ -62,3 +62,17 @@ Este projeto realiza a extração de notícias dos sites da Band UOL, G1 Globo e
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+## Observações
+
+### Mudanças na Estrutura HTML
+
+As páginas web podem alterar a sua estrutura HTML ao longo do tempo, o que pode ocasionar erros no scraper. Caso isso ocorra, será necessário atualizar o código para refletir as novas mudanças na estrutura das páginas. Fique atento a possíveis falhas na extração de dados e revise o código conforme necessário.
+
+### Limitações
+
+Rodar o scraper em mais de um site numa única execução pode causar erros. Para evitar problemas, execute o scraper separadamente para cada site.
+
+### Aviso Legal
+
+Este projeto foi desenvolvido apenas para fins educacionais e não deve ser utilizado para coletar dados de sites sem a permissão dos seus proprietários. O uso indevido deste projeto é de responsabilidade do usuário.
