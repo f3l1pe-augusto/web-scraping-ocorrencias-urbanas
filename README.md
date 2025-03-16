@@ -59,10 +59,6 @@ Este projeto realiza a extração de notícias dos sites da Band UOL, G1 Globo e
 4. Envie para o repositório remoto: `git push origin minha-nova-feature`
 5. Abra um Pull Request.
 
-## Licença
-
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
 ## Observações
 
 ### Mudanças na Estrutura HTML
@@ -76,3 +72,7 @@ Rodar o scraper em mais de um site numa única execução pode causar erros. Par
 ### Aviso Legal
 
 Este projeto foi desenvolvido apenas para fins educacionais e não deve ser utilizado para coletar dados de sites sem a permissão dos seus proprietários. O uso indevido deste projeto é de responsabilidade do usuário.
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
