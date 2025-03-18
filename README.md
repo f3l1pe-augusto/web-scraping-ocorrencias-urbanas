@@ -1,6 +1,6 @@
 # Web Scraping de Notícias
 
-Este projeto realiza a extração de notícias dos sites da Band UOL, G1 Globo e JCNET Sampi na cidade de Bauru utilizando as bibliotecas BeautifulSoup e Selenium, e salva as notícias extraídas num arquivo CSV para análise posterior.
+Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que visa fazer um levantamento de ocorrências urbanas que acontecem na cidade de Bauru–SP a partir de várias fontes de dados. Para isso, foram utilizadas técnicas de computação e ciência de dados com intuito de identificar informações e dados relevantes que indiquem tais ocorrências. Os dados foram extraídos dos sites da Band UOL, G1 Globo e JCNET Sampi na cidade de Bauru utilizando a linguagem Python e as bibliotecas BeautifulSoup e Selenium, as notícias extraídas num arquivo CSV serão utilizadas para análise posterior.
 
 ## Requisitos
 
