@@ -61,6 +61,10 @@ Este projeto realiza a extração de notícias dos sites da Band UOL, G1 Globo e
 
 ## Observações
 
+### Wayback Machine
+
+Esse projeto possui integração com a Wayback Machine, um serviço que permite acessar versões antigas de sites, para análises realizar análises históricas.
+
 ### Mudanças na Estrutura HTML
 
 As páginas web podem alterar a sua estrutura HTML ao longo do tempo, o que pode ocasionar erros no scraper. Caso isso ocorra, será necessário atualizar o código para refletir as novas mudanças na estrutura das páginas. Fique atento a possíveis falhas na extração de dados e revise o código conforme necessário.
