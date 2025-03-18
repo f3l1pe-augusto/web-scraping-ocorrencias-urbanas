@@ -63,7 +63,7 @@ Este projeto realiza a extração de notícias dos sites da Band UOL, G1 Globo e
 
 ### Wayback Machine
 
-Esse projeto possui integração com a Wayback Machine, um serviço que permite acessar versões antigas de sites, para análises realizar análises históricas.
+Esse projeto possui integração com a Wayback Machine, um serviço que permite acessar versões antigas de sites, para realizar análises históricas.
 
 ### Mudanças na Estrutura HTML
 
