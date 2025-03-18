@@ -27,7 +27,7 @@ if __name__ == "__main__":
         raise ValueError("A variável GOOGLE_MAPS_API_KEY não está definida no arquivo .env.")
 
     url_band = 'https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias'
-    url_g1 = 'https://g1.globo.com/sp/bauru-marilia/'
+    url_g1 = 'https://g1.globo.com/sp/bauru-marilia'
     url_jcnet = 'https://sampi.net.br/bauru'
 
     occurrences = input("Digite as ocorrências (separadas por vírgula) pela qual deseja filtrar (ex: roubo, furto, falta de luz): ")
@@ -42,22 +42,22 @@ if __name__ == "__main__":
 
     # Notícias de 5 anos atrás
     # timestamp = scrape_news_use_case.get_five_years_ago_date()
-    # old_news_band = scrape_archived_news(url_band, timestamp, occurrence, scrape_news_use_case.logger, 'band', api_key)
-    # old_news_g1 = scrape_archived_news(url_g1, timestamp, occurrence, scrape_news_use_case.logger, 'g1', api_key)
-    # old_news_jcnet = scrape_archived_news(url_jcnet, timestamp, occurrence, scrape_news_use_case.logger, 'jcnet', api_key)
+    # old_band_news = scrape_archived_news(url_band, timestamp, search_terms, scrape_news_use_case.logger, 'band', api_key)
+    # old_g1_news = scrape_archived_news(url_g1, timestamp, search_terms, scrape_news_use_case.logger, 'g1', api_key)
+    # old_jcnet_news = scrape_archived_news(url_jcnet, timestamp, search_terms, scrape_news_use_case.logger, 'jcnet', api_key)
 
     # Consolidação dos dados
     dataset_g1_news = g1_news
-    # all_old_news = old_news_band + old_news_g1 + old_news_jcnet
+    # dataset_old_g1_news = old_g1_news
 
     # Salvar em CSV
     os.makedirs('../data', exist_ok=True)
 
     dataset_g1_news_path = '../data/dataset_g1_news_news.csv'
-    # old_news_path = '../data/old_news_data.csv'
+    # dataset_old_g1_news_path = '../data/dataset_old_g1_news.csv'
 
     pd.DataFrame(dataset_g1_news).to_csv(dataset_g1_news_path, index=False)
-    # pd.DataFrame(all_old_news).to_csv(old_news_path, index=False)
+    # pd.DataFrame(dataset_old_g1_news).to_csv(dataset_old_g1_news_path, index=False)
 
     scrape_news_use_case.logger.info(f"Notícias atuais salvas em: {dataset_g1_news_path}")
-    # scrape_news_use_case.logger.info(f"Notícias antigas salvas em: {old_news_path}")
+    # scrape_news_use_case.logger.info(f"Notícias antigas salvas em: {dataset_old_g1_news_path}")

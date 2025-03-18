@@ -52,7 +52,7 @@ def load_page(driver, url, log, max_clicks=MAX):
     return driver.page_source
 
 def fetch_wayback_snapshot(url, timestamp=None):
-    base_url = "https://archive.org/wayback/available"
+    base_url = "http://archive.org/wayback/available"
     params = {"url": url}
     if timestamp:
         params["timestamp"] = timestamp
