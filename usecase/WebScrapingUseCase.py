@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from unidecode import unidecode
 
-from util.Util import get_cep, get_coordinates, extract_address, remove_semicolons, remove_duplicate_spaces
+from util.Util import get_ceps, get_coordinates, extract_addresses, remove_semicolons, remove_duplicate_spaces
 
 MAX = 100
 
@@ -217,9 +217,9 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
                     subtitle = get_band_subtitle(driver, link, log)
 
                 content = get_news_content(driver, link, log)
-                address, address_type = extract_address(content, log)
-                cep = get_cep(address, google_maps_api_key, log)
-                latitude, longitude = get_coordinates(cep, address, google_maps_api_key, log)
+                addresses, address_types = extract_addresses(content, log)
+                ceps = get_ceps(addresses, google_maps_api_key, log)
+                latitudes, longitudes = get_coordinates(ceps, addresses, google_maps_api_key, log)
 
                 content = remove_duplicate_spaces(content)
                 content = remove_semicolons(content)
@@ -228,16 +228,16 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
                 subtitle = remove_duplicate_spaces(subtitle)
                 subtitle = remove_semicolons(subtitle)
 
-                if latitude and longitude:
+                if latitudes and longitudes:
                     news_list.append({
                         'title': title,
                         'subtitle': subtitle,
                         'content': content,
                         'published_date': published_date,
                         'link': link,
-                        'address_type': address_type,
-                        'latitude': latitude,
-                        'longitude': longitude,
+                        'address_types': address_types,
+                        'latitudes': latitudes,
+                        'longitudes': longitudes,
                         'site': site,
                         'search_term': search_term
                     })
