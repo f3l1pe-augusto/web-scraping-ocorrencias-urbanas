@@ -35,13 +35,14 @@ def get_ceps(addresses, google_maps_api_key, logger):
 def get_coordinates(ceps, addresses, google_maps_api_key, logger):
     if not ceps and not addresses:
         logger.error("CEPs e endereços não fornecidos para a API do Google Maps.")
-        return [], []
+        return []
 
-    latitudes = []
-    longitudes = []
+    coordinates = []
 
     queries = ceps if ceps else addresses
-    if not ceps:
+    if ceps:
+        queries = [f"{cep}, Bauru, São Paulo, Brasil" for cep in ceps]
+    else:
         logger.info("CEPs não fornecidos, utilizando endereços para buscar coordenadas.")
         queries = [address + ", Bauru, São Paulo, Brasil" if "Bauru" not in address else address for address in addresses]
 
@@ -54,18 +55,15 @@ def get_coordinates(ceps, addresses, google_maps_api_key, logger):
             data = response.json()
             if data.get('results'):
                 location = data['results'][0]['geometry']['location']
-                latitudes.append(location['lat'])
-                longitudes.append(location['lng'])
+                coordinates.append((location['lat'], location['lng']))
             else:
                 logger.warning(f"Localização não encontrada para: {query}")
-                latitudes.append(None)
-                longitudes.append(None)
+                coordinates.append((None, None))
         else:
             logger.error(f"Erro na API: {response.status_code}, {response.text}")
-            latitudes.append(None)
-            longitudes.append(None)
+            coordinates.append((None, None))
 
-    return latitudes, longitudes
+    return coordinates
 
 def extract_addresses(content, logger):
     address_pattern = r"(Rua|Bairro|Acampamento|Avenida|Praça|Travessa|Alameda|Vila|Jardim|Parque|Residencial|Conjunto Habitacional|Rodovia|Núcleo)\s+([A-Za-zÀ-ÖØ-öø-ÿ\s]+)(?=,|\.|$)"

@@ -10,7 +10,7 @@ from unidecode import unidecode
 
 from util.Util import get_ceps, get_coordinates, extract_addresses, remove_semicolons, remove_duplicate_spaces
 
-MAX = 100
+MAX = 2000
 
 def configure_driver(headless=True):
     options = Options()
@@ -219,7 +219,7 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
                 content = get_news_content(driver, link, log)
                 addresses, address_types = extract_addresses(content, log)
                 ceps = get_ceps(addresses, google_maps_api_key, log)
-                latitudes, longitudes = get_coordinates(ceps, addresses, google_maps_api_key, log)
+                coordinates = get_coordinates(ceps, addresses, google_maps_api_key, log)
 
                 content = remove_duplicate_spaces(content)
                 content = remove_semicolons(content)
@@ -228,7 +228,7 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
                 subtitle = remove_duplicate_spaces(subtitle)
                 subtitle = remove_semicolons(subtitle)
 
-                if latitudes and longitudes:
+                if coordinates:
                     news_list.append({
                         'title': title,
                         'subtitle': subtitle,
@@ -236,8 +236,7 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
                         'published_date': published_date,
                         'link': link,
                         'address_types': address_types,
-                        'latitudes': latitudes,
-                        'longitudes': longitudes,
+                        'coordinates': coordinates,
                         'site': site,
                         'search_term': search_term
                     })
