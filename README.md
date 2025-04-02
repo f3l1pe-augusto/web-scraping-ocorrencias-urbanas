@@ -61,6 +61,10 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 ## Observações
 
+### Google Geocoding API
+
+Esse projeto utiliza a Google Geocoding API para converter endereços em coordenadas geográficas. Para utilizar essa funcionalidade, você precisará de uma chave de API do Google. Siga as instruções [aqui](https://developers.google.com/maps/documentation/geocoding/get-api-key) para obter a sua chave.
+
 ### Wayback Machine
 
 Esse projeto possui integração com a Wayback Machine, um serviço que permite acessar versões antigas de sites, para realizar análises históricas.

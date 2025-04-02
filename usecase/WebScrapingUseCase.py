@@ -10,7 +10,7 @@ from unidecode import unidecode
 
 from util.Util import get_ceps, get_coordinates, extract_addresses, remove_semicolons, remove_duplicate_spaces
 
-MAX = 2000
+NUM_CLICKS = 10 # Número de cliques na página para carregar mais notícias
 
 def configure_driver(headless=True):
     options = Options()
@@ -18,14 +18,13 @@ def configure_driver(headless=True):
         options.add_argument("--headless")
     return webdriver.Chrome(options=options)
 
-def load_page(driver, url, log, max_clicks=MAX):
+def load_page(driver, url, log, clicks=NUM_CLICKS):
     driver.get(url)
     log.info(f"Título da página: {driver.title}")
     log.info("Carregando notícias...")
 
-    for click in range(max_clicks):
+    for click in range(clicks):
         try:
-            time.sleep(3)
             driver.execute_script("window.scrollBy(0, 20000);")
             if "band.uol" in driver.current_url:
                 load_more_button = driver.find_elements(By.XPATH, "//*[contains(text(), 'Carregar mais')]")
@@ -122,7 +121,10 @@ def get_news_content(driver, link, log):
                    and 'Band.com.br' not in p.text
                    and 'Siga a Band.com.br nas redes' not in p.text
                    and 'Utilizamos cookies essenciais e tecnologias semelhantes de acordo com a nossa Política de Privacidade e, ao continuar navegando, você concorda com estas condições.' not in p.text
-                   and 'Bauru e Marília' not in p.text])
+                   and 'Bauru e Marília' not in p.text
+                   and 'Por Hiltonei Fernando' not in p.text
+                   and 'Nos siga nas redes sociais Por Hiltonei Fernando' not in p.text
+                   and 'Li e concordo com os Termos de Uso e Políticas de Privacidade' not in p.text])
         elif "g1.globo" in link:
             content = ' '.join([
                 p.text

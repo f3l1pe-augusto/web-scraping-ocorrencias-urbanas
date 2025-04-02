@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # Salvar em CSV
     os.makedirs('../data', exist_ok=True)
 
-    dataset_g1_news_path = '../data/dataset_g1_news_news.csv'
+    dataset_g1_news_path = '../data/dataset_g1_news.csv'
     # dataset_old_g1_news_path = '../data/dataset_old_g1_news.csv'
 
     pd.DataFrame(dataset_g1_news).to_csv(dataset_g1_news_path, index=False)
