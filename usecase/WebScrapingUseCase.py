@@ -230,18 +230,17 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
                 subtitle = remove_duplicate_spaces(subtitle)
                 subtitle = remove_semicolons(subtitle)
 
-                if coordinates:
-                    news_list.append({
-                        'title': title,
-                        'subtitle': subtitle,
-                        'content': content,
-                        'published_date': published_date,
-                        'link': link,
-                        'address_types': address_types,
-                        'coordinates': coordinates,
-                        'site': site,
-                        'search_term': search_term
-                    })
+                news_list.append({
+                    'title': title,
+                    'subtitle': subtitle,
+                    'content': content,
+                    'published_date': published_date,
+                    'link': link,
+                    'address_types': address_types,
+                    'coordinates': coordinates,
+                    'site': site,
+                    'search_term': search_term
+                })
 
         except Exception as e:
             log.error(f"Erro ao processar notícia {index}: {e}")
