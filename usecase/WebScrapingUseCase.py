@@ -12,7 +12,7 @@ from util.Util import get_ceps, get_coordinates, extract_addresses, remove_semic
 
 NUM_CLICKS = 10 # Número de cliques na página para carregar mais notícias
 
-def configure_driver(headless=True):
+def configure_driver(headless=False): # Configura o driver do Selenium
     options = Options()
     if headless:
         options.add_argument("--headless")
@@ -20,18 +20,24 @@ def configure_driver(headless=True):
 
 def load_page(driver, url, log, clicks=NUM_CLICKS):
     driver.get(url)
+    current_url = driver.current_url
     log.info(f"Título da página: {driver.title}")
     log.info("Carregando notícias...")
 
+    html_pages = [driver.page_source]
+
     for click in range(clicks):
         try:
-            driver.execute_script("window.scrollBy(0, 20000);")
-            if "band.uol" in driver.current_url:
+            driver.execute_script("window.scrollBy(0, document.body.scrollHeight);")
+
+            if "band.uol" in current_url:
                 load_more_button = driver.find_elements(By.XPATH, "//*[contains(text(), 'Carregar mais')]")
-            elif "g1.globo" in driver.current_url:
+            elif "g1.globo" in current_url:
                 close_cookie_banner_g1(driver, log)
                 load_more_button = driver.find_elements(By.XPATH, "//*[contains(text(), 'Veja mais')]")
-            elif "sampi.net" in driver.current_url:
+            elif "94fm" in current_url:
+                load_more_button = driver.find_elements(By.XPATH, "//*[contains(text(), 'Próximo')]")
+            elif "sampi.net" in current_url:
                 break
             else:
                 continue
@@ -40,7 +46,9 @@ def load_page(driver, url, log, clicks=NUM_CLICKS):
                 driver.execute_script("arguments[0].scrollIntoView(true);", load_more_button[0])
                 driver.execute_script("arguments[0].click();", load_more_button[0])
                 log.info(f"Carregando mais notícias... Aguarde... Click: {click + 1}")
-                time.sleep(2)
+                time.sleep(3)
+                if "94fm" in current_url:
+                    html_pages.append(driver.page_source)
             else:
                 log.info("Botão para carregar a página não encontrado.")
                 break
@@ -48,7 +56,7 @@ def load_page(driver, url, log, clicks=NUM_CLICKS):
             log.error(f"Ocorreu um erro ao carregar a página: {e}")
             break
 
-    return driver.page_source
+    return html_pages if "94fm" in current_url else driver.page_source
 
 def fetch_wayback_snapshot(url, timestamp=None):
     base_url = "http://archive.org/wayback/available"
@@ -123,8 +131,9 @@ def get_news_content(driver, link, log):
                    and 'Utilizamos cookies essenciais e tecnologias semelhantes de acordo com a nossa Política de Privacidade e, ao continuar navegando, você concorda com estas condições.' not in p.text
                    and 'Bauru e Marília' not in p.text
                    and 'Por Hiltonei Fernando' not in p.text
-                   and 'Nos siga nas redes sociais Por Hiltonei Fernando' not in p.text
-                   and 'Li e concordo com os Termos de Uso e Políticas de Privacidade' not in p.text])
+                   and 'Nos siga nas redes sociais' not in p.text
+                   and 'Li e concordo com os Termos de Uso e Políticas de Privacidade' not in p.text
+                   and 'Este vídeo está indisponível no momento' not in p.text])
         elif "g1.globo" in link:
             content = ' '.join([
                 p.text
@@ -140,6 +149,11 @@ def get_news_content(driver, link, log):
                    and 'Notícias que importam onde você estiver' not in p.text
                    and 'mb-1' not in p.get('class', [])
                    and 'text-laranja' not in p.get('class', [])])
+        elif "94fm" in link:
+            content = ' '.join([
+                p.text
+                for p in soup.find_all('p')
+                if 'Preencha os campos abaixo para submeter seu pedido de música' not in p.text])
         else:
             log.error("Site não suportado para extração de conteúdo")
             return "Conteúdo não disponível"
@@ -152,12 +166,16 @@ def get_news_content(driver, link, log):
 def parse_news(html_content, search_terms, log, site, driver, google_maps_api_key):
     soup = BeautifulSoup(html_content, 'lxml')
 
+    categories = ""
+
     if site == 'band':
         all_news = soup.find_all('div', class_='box-cards')
     elif site == 'g1':
         all_news = soup.find_all('div', class_='feed-post-body')
     elif site == 'jcnet':
         all_news = soup.find_all('div', class_='col-24')
+    elif site == '94fm':
+        all_news = soup.find_all('li', class_='col-xs-12 col-md-6')
     else:
         log.error("Site não suportado")
         return []
@@ -189,6 +207,12 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
                 subtitle = ''
                 link = single_news.find('a', class_='hoverActive')['href'] if single_news.find('a', class_='hoverActive') else "#"
                 published_date = ''
+            elif site == '94fm':
+                title = single_news.find('h3').text.strip() if single_news.find('h3') else "Título não encontrado"
+                subtitle = ''
+                link = single_news.find('h3').find('a')['href'] if single_news.find('h3') else "#"
+                published_date = single_news.find('p').text.strip() if single_news.find('p') else "Data não encontrada"
+                categories = single_news.find('strong').text.strip() if single_news.find('strong') else "Categorias não encontradas"
             else:
                 log.error("Site não suportado")
                 return []
@@ -204,8 +228,11 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
             # Verifica se a notícia menciona a cidade de Bauru (no título ou subtítulo)
             bauru = "bauru" in title_normalized or "bauru" in subtitle_normalized
 
+            # Verifica se a notícia é da categoria "Bauru" (apenas para o site 94fm)
+            bauru_category = "bauru" in categories.lower() if site == '94fm' else False
+
             # Apenas adiciona a notícia se atender a ambos os critérios
-            if search_term and bauru:
+            if search_term and (bauru or bauru_category):
                 if site == 'jcnet':
                     published_date = get_jcnet_date(driver, link, log)
 
@@ -266,17 +293,25 @@ def scrape_news(url, search_terms, log, site, google_maps_api_key):
     try:
         html_content = load_page(driver, url, log)
 
-        # Criar um conjunto para armazenar notícias únicas
         all_news = []
         seen_titles = set()
 
         log.info(f"Buscando notícias sobre os termos {search_terms} no site {site}...")
-        news_list = parse_news(html_content, search_terms, log, site, driver, google_maps_api_key)
 
-        for news in news_list:
-            if news['title'] not in seen_titles:
-                all_news.append(news)
-                seen_titles.add(news['title'])
+        # Verifica se o conteúdo é uma lista (caso do 94fm)
+        if isinstance(html_content, list):
+            for page_html in html_content:
+                news_list = parse_news(page_html, search_terms, log, site, driver, google_maps_api_key)
+                for news in news_list:
+                    if news['title'] not in seen_titles:
+                        all_news.append(news)
+                        seen_titles.add(news['title'])
+        else:
+            news_list = parse_news(html_content, search_terms, log, site, driver, google_maps_api_key)
+            for news in news_list:
+                if news['title'] not in seen_titles:
+                    all_news.append(news)
+                    seen_titles.add(news['title'])
 
         return all_news
     finally:
