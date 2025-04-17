@@ -4,14 +4,14 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 ## Sites suportados
 
-- [G1 Bauru](https://g1.globo.com/sp/bauru-marilia/)
-- [Band Bauru](https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias)
-- [Jornal da Cidade](https://sampi.net.br/bauru)
-- [94 FM](https://www.94fm.com.br/noticias/)
+- <a href="https://g1.globo.com/sp/bauru-marilia/" style="text-decoration: none;">G1 Bauru</a>  
+- <a href="https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias" style="text-decoration: none;">Band Bauru</a>  
+- <a href="https://sampi.net.br/bauru" style="text-decoration: none;">Jornal da Cidade</a>  
+- <a href="https://www.94fm.com.br/noticias/" style="text-decoration: none;">94 FM</a>
 
 ## Redes sociais suportadas
 
-- [ X](https://x.com/)
+- <a href="https://x.com/" style="text-decoration: none;">X</a>
 
 ## Requisitos
 
