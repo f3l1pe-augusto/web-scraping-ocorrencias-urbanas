@@ -2,6 +2,13 @@
 
 Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que visa fazer um levantamento de ocorrências urbanas que acontecem na cidade, utilizando como fonte de dados vários portais de noticias locais e redes sociais. Para isso, foram utilizadas técnicas de computação e ciência de dados com intuito de identificar informações e dados relevantes que indiquem tais ocorrências. Os dados foram extraídos utilizando a linguagem Python e as bibliotecas BeautifulSoup e Selenium, as ocorrências extraídas num arquivo CSV serão utilizadas para análise posterior. Após analisar os dados, o objetivo final será a disponiblização do conjunto de dados coletado e a criação de um Sistema de Informação Geográfica (SIG) que permita visualizar as ocorrências urbanas num mapa da cidade de Bauru, com o intuito de auxiliar tomadas de decisões baseadas em dados.
 
+## Sites suportados
+
+- [G1 Bauru](https://g1.globo.com/sp/bauru-marilia/)
+- [Band Bauru](https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias)
+- [Jornal da Cidade](https://sampi.net.br/bauru)
+- [94 FM](https://www.94fm.com.br/noticias/)
+
 ## Requisitos
 
 - Python 3.x
@@ -54,8 +61,8 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 ## Contribuição
 
 1. Faça um fork do projeto.
-2. Crie uma nova branch: `git checkout -b minha-nova-feature`
-3. Faça suas alterações e commit: `git commit -am 'Adiciona nova feature'`
+2. Crie uma branch: `git checkout -b minha-nova-feature`
+3. Faça as suas alterações e commit: `git commit -am 'Adiciona nova feature'`
 4. Envie para o repositório remoto: `git push origin minha-nova-feature`
 5. Abra um Pull Request.
 
