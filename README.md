@@ -1,17 +1,17 @@
-# Web Scraping de Ocorrências Urbanas
+# Web Scraping de Notícias
 
 Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que visa fazer um levantamento de ocorrências urbanas que acontecem na cidade, utilizando como fonte de dados vários portais de noticias locais e redes sociais. Para isso, foram utilizadas técnicas de computação e ciência de dados com intuito de identificar informações e dados relevantes que indiquem tais ocorrências. Os dados foram extraídos utilizando a linguagem Python e as bibliotecas BeautifulSoup e Selenium, as ocorrências extraídas num arquivo CSV serão utilizadas para análise posterior. Após analisar os dados, o objetivo final será a disponiblização do conjunto de dados coletado e a criação de um Sistema de Informação Geográfica (SIG) que permita visualizar as ocorrências urbanas num mapa da cidade de Bauru, com o intuito de auxiliar tomadas de decisões baseadas em dados.
 
 ## Sites suportados
 
-- <a href="https://g1.globo.com/sp/bauru-marilia/" style="text-decoration: none;">G1 Bauru</a>  
-- <a href="https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias" style="text-decoration: none;">Band Bauru</a>  
-- <a href="https://sampi.net.br/bauru" style="text-decoration: none;">Jornal da Cidade</a>  
-- <a href="https://www.94fm.com.br/noticias/" style="text-decoration: none;">94 FM</a>
+- [G1 Bauru](https://g1.globo.com/sp/bauru-marilia/)
+- [Band Bauru](https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias)
+- [Jornal da Cidade](https://sampi.net.br/bauru)
+- [94 FM](https://www.94fm.com.br/noticias/)
 
 ## Redes sociais suportadas
 
-- <a href="https://x.com/" style="text-decoration: none;">X</a>
+- [ X](https://x.com/)
 
 ## Requisitos
 
