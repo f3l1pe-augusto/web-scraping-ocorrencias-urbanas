@@ -9,6 +9,10 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 - [Jornal da Cidade](https://sampi.net.br/bauru)
 - [94 FM](https://www.94fm.com.br/noticias/)
 
+## Redes sociais suportadas
+
+- [ X](https://x.com/)
+
 ## Requisitos
 
 - Python 3.x
