@@ -128,6 +128,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.env
 
 # Spyder project settings
 .spyderproject
@@ -162,8 +163,3 @@ cython_debug/
 
 # Arquivos de configuração do PyCharm
 .idea/
-
-# Arquivos gerado pelo código
-/data/current_news_data.csv
-/data/old_news_data.csv
-/log/news_data.log
