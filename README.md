@@ -2,7 +2,7 @@
 
 Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que visa fazer um levantamento de ocorrências urbanas que acontecem na cidade de Bauru-SP, utilizando como fonte de dados vários portais de noticias locais e redes sociais. Para isso, foram utilizadas técnicas de computação e ciência de dados com intuito de identificar informações e dados relevantes que indiquem tais ocorrências. Os dados foram extraídos utilizando a linguagem Python e as bibliotecas BeautifulSoup e Selenium, as ocorrências extraídas num arquivo CSV serão utilizadas para análise posterior. Após analisar os dados, o objetivo final será a disponiblização do conjunto de dados coletado e a criação de um Sistema de Informação Geográfica (SIG) que permita visualizar as ocorrências urbanas num mapa da cidade de Bauru, com o intuito de auxiliar tomadas de decisões baseadas em dados.
 
-## Imagem do projeto
+## Menu inicial
 
 ![img.png](images/img.png)
 
@@ -80,7 +80,7 @@ web-scraping-ocorrencias-urbanas/
 └── __init__.py                    
     └── run_social_scraper.py      # Executa o processo de scraping de redes sociais
 ├── images/                        # Pasta com as imagens do projeto
-│   ├── img.png                    # Imagem da tela inicial
+│   ├── img.png                    # Imagem do menu inicial
 ```
 
 ## Contribuição
