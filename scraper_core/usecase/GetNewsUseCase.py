@@ -1,22 +1,23 @@
 import time
 
 import dateparser
-import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from unidecode import unidecode
 
-from util.Util import get_ceps, get_coordinates, extract_addresses, remove_semicolons, remove_duplicate_spaces
+from scraper_core.util.Util import get_ceps, get_coordinates, extract_addresses, remove_semicolons, remove_duplicate_spaces
+
 
 NUM_CLICKS = 10 # Número de cliques na página para carregar mais notícias
 
-def configure_driver(headless=False): # Configura o driver do Selenium
+def configure_driver(headless=False): # Headless mode define se o navegador será exibido ou não
     options = Options()
     if headless:
         options.add_argument("--headless")
     return webdriver.Chrome(options=options)
+
 
 def load_page(driver, url, log, clicks=NUM_CLICKS):
     driver.get(url)
@@ -58,23 +59,6 @@ def load_page(driver, url, log, clicks=NUM_CLICKS):
 
     return html_pages if "94fm" in current_url else driver.page_source
 
-def fetch_wayback_snapshot(url, timestamp=None):
-    base_url = "http://archive.org/wayback/available"
-    params = {"url": url}
-    if timestamp:
-        params["timestamp"] = timestamp
-
-    response = requests.get(base_url, params=params)
-
-    if response.status_code == 200:
-        data = response.json()
-        snapshots = data.get("archived_snapshots", {})
-        if "closest" in snapshots:
-            return snapshots["closest"]
-        else:
-            return None
-    else:
-        return None
 
 def close_cookie_banner_g1(driver, log):
     try:
@@ -82,6 +66,7 @@ def close_cookie_banner_g1(driver, log):
         cookie_banner.click()
     except Exception as e:
         log.info(f"Banner de cookies não encontrado ou aceito: {e}")
+
 
 def get_jcnet_date(driver, link, log):
     try:
@@ -98,6 +83,7 @@ def get_jcnet_date(driver, link, log):
         log.error(f"Erro ao recuperar a data da notícia: {e}")
         return "Data não encontrada"
 
+
 def get_band_subtitle(driver, link, log):
     try:
         driver.get(link)
@@ -111,6 +97,7 @@ def get_band_subtitle(driver, link, log):
     except Exception as e:
         log.error(f"Erro ao recuperar o subtítulo da notícia: {e}")
         return "Subtítulo não encontrado"
+
 
 def get_news_content(driver, link, log):
     try:
@@ -162,6 +149,7 @@ def get_news_content(driver, link, log):
     except Exception as e:
         log.error(f"Erro ao recuperar o conteúdo da notícia: {e}")
         return "Erro ao recuperar o conteúdo"
+
 
 def parse_news(html_content, search_terms, log, site, driver, google_maps_api_key):
     soup = BeautifulSoup(html_content, 'lxml')
@@ -217,7 +205,6 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
                 log.error("Site não suportado")
                 return []
 
-            # Normalização para comparações (tudo em minúsculo e sem acentos)
             title_normalized = unidecode(title.lower())
 
             subtitle_normalized = unidecode(subtitle.lower())
@@ -225,13 +212,10 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
             # Verifica se a notícia contém pelo menos um dos termos informados (no título ou subtítulo)
             search_term = next((term for term in normalized_search_terms if term in title_normalized or term in subtitle_normalized), None)
 
-            # Verifica se a notícia menciona a cidade de Bauru (no título ou subtítulo)
             bauru = "bauru" in title_normalized or "bauru" in subtitle_normalized
 
-            # Verifica se a notícia é da categoria "Bauru" (apenas para o site 94fm)
             bauru_category = "bauru" in categories.lower() if site == '94fm' else False
 
-            # Apenas adiciona a notícia se atender a ambos os critérios
             if search_term and (bauru or bauru_category):
                 if site == 'jcnet':
                     published_date = get_jcnet_date(driver, link, log)
@@ -278,15 +262,6 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
 
     return news_list
 
-def scrape_archived_news(url, timestamp, search_term, log, site, google_maps_api_key):
-    snapshot = fetch_wayback_snapshot(url, timestamp)
-    if not snapshot or not snapshot.get("available", False):
-        log.warning(f"Nenhum snapshot disponível para {url} em {timestamp}.")
-        return []
-
-    archived_url = snapshot["url"]
-    log.info(f"Snapshot encontrado: {archived_url}")
-    return scrape_news(archived_url, search_term, log, site, google_maps_api_key)
 
 def scrape_news(url, search_terms, log, site, google_maps_api_key):
     driver = configure_driver()

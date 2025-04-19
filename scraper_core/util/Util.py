@@ -1,6 +1,7 @@
 import requests
 import re
 
+
 def get_ceps(addresses, google_maps_api_key, logger):
     if not addresses:
         logger.error("Endereços não fornecidos para a API do Google Maps.")
@@ -31,6 +32,7 @@ def get_ceps(addresses, google_maps_api_key, logger):
             logger.error(f"Erro na API: {response.status_code}, {response.text}")
 
     return ceps
+
 
 def get_coordinates(ceps, addresses, google_maps_api_key, logger):
     if not ceps and not addresses:
@@ -64,6 +66,7 @@ def get_coordinates(ceps, addresses, google_maps_api_key, logger):
             coordinates.append((None, None))
 
     return coordinates
+
 
 def extract_addresses(content, logger):
     address_pattern = r"(Rua|Bairro|Acampamento|Avenida|Praça|Travessa|Alameda|Vila|Jardim|Parque|Residencial|Conjunto Habitacional|Rodovia|Núcleo)\s+([A-Za-zÀ-ÖØ-öø-ÿ\s]+)(?=,|\.|$)"

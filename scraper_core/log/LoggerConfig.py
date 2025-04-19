@@ -2,6 +2,7 @@ import logging
 import colorlog
 import os
 
+
 class LoggerConfig:
     def __init__(self):
         log_colors = {
@@ -29,6 +30,7 @@ class LoggerConfig:
         self.logger.addHandler(console_handler)
         self.logger.addHandler(file_handler)
         self.logger.setLevel(logging.INFO)
+
 
     def get_logger(self):
         return self.logger

@@ -84,10 +84,6 @@ Esse projeto possui integração com a Wayback Machine, um serviço que permite 
 
 As páginas web podem alterar a sua estrutura HTML ao longo do tempo, o que pode ocasionar erros no scraper. Caso isso ocorra, será necessário atualizar o código para refletir as novas mudanças na estrutura das páginas. Fique atento a possíveis falhas na extração de dados e revise o código conforme necessário.
 
-### Limitações
-
-Rodar o scraper em mais de um site numa única execução pode causar erros. Para evitar problemas, execute o scraper separadamente para cada site.
-
 ### Aviso Legal
 
 Este projeto foi desenvolvido apenas para fins educacionais e não deve ser utilizado para coletar dados de sites sem a permissão dos seus proprietários. O uso indevido deste projeto é de responsabilidade do usuário.
