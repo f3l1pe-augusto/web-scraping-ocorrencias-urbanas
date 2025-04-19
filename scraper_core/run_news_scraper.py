@@ -21,7 +21,6 @@ def main():
 
     url_band = 'https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias'
     url_g1 = 'https://g1.globo.com/sp/bauru-marilia'
-    url_jcnet = 'https://sampi.net.br/bauru'
     url_94fm = "https://www.94fm.com.br/noticias/"
 
     occurrences = input("Digite as ocorrências (separadas por vírgula) pela qual deseja filtrar (ex: roubo, furto, falta de luz): ")
@@ -31,16 +30,13 @@ def main():
 
     band_news = scrape_news_use_case.run(url_band, search_terms, 'band', api_key)
     g1_news = scrape_news_use_case.run(url_g1, search_terms, 'g1', api_key)
-    jcnet_news = scrape_news_use_case.run(url_jcnet, search_terms, 'jcnet', api_key)
     _94fm_news = scrape_news_use_case.run(url_94fm, search_terms, '94fm', api_key)
 
     band_df = pd.DataFrame(band_news)
     g1_df = pd.DataFrame(g1_news)
-    jcnet_df = pd.DataFrame(jcnet_news)
     _94fm_df = pd.DataFrame(_94fm_news)
 
-    df_all_news = pd.concat([band_df, g1_df, jcnet_df, _94fm_df], ignore_index=True)
-
+    df_all_news = pd.concat([band_df, g1_df, _94fm_df], ignore_index=True)
 
     os.makedirs('scraper_core/data', exist_ok=True)
 

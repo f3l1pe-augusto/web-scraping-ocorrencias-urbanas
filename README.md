@@ -6,7 +6,6 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 - [G1 Bauru](https://g1.globo.com/sp/bauru-marilia/)
 - [Band Bauru](https://www.band.uol.com.br/band-multi/bauru-e-marilia/noticias)
-- [Jornal da Cidade](https://sampi.net.br/bauru)
 - [94 FM](https://www.94fm.com.br/noticias/)
 
 ## Redes sociais suportadas
