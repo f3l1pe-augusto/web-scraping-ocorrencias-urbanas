@@ -10,7 +10,7 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 ## Redes sociais suportadas
 
-- [ X](https://x.com/)
+- [ X](https://x.com/) (em breve)
 
 ## Requisitos
 
@@ -22,8 +22,8 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 1. Clone o repositório:
     ```sh
-    git clone https://github.com/f3l1pe-augusto/web-scraping-noticias.git
-    cd web-scraping-noticias
+    git clone https://github.com/f3l1pe-augusto/web-scraping-ocorrencias-urbanas.git
+    cd web-scraping-ocorrencias-urbanas
     ```
 
 2. Crie um ambiente virtual e ative-o:
@@ -52,14 +52,30 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 ## Estrutura do Projeto
 
-- `main`: Script principal do projeto, responsável por executar o programa.
-- `usecase`: Contém a lógica de negócio do projeto e é responsável por orquestrar as operações de extração de notícias.
-- `log`: Contém o arquivo de configurações de log do projeto que registra as operações realizadas.
-- `data`: Diretório onde contém o arquivo CSV no qual as notícias extraídas serão salvas.
-- `util`: Diretório que contem funções úteis para o projeto que podem ser usadas em outras classes.
-- `requirements.txt`: Lista de dependências do projeto.
-- `README.md`: Documentação do projeto.
-- `.gitignore`: Usado para ignorar arquivos e pastas desnecessárias no controle de versão.
+```plaintext
+web-scraping-ocorrencias-urbanas/
+├── Main.py                         # Script principal com menu de execução
+├── requirements.txt                # Lista de dependências do projeto
+├── README.md                       # Documentação do projeto
+├── LICENSE                         # Licença de uso
+├── scraper_core/                   # Módulo principal de scraping de notícias
+│   ├── __init__.py
+│   ├── run_news_scraper.py         # Executa o processo de scraping de notícias
+│   ├── data/
+│   │   └── df_all_news.csv         # Dados coletados em formato CSV
+│   ├── log/
+│   │   ├── __init__.py
+│   │   └── LoggerConfig.py         # Configuração de logs para monitoramento e debug
+│   ├── usecase/
+│   │   ├── __init__.py
+│   │   └── GetNewsUseCase.py      # Caso de uso principal para scraping das fontes de notícias
+│   └── util/
+│       ├── __init__.py
+│       └── Util.py                # Funções utilitárias para o projeto (limpeza, formatação, extração de coordenadas, etc)
+└── social_scraper/
+└── __init__.py                # Estrutura inicial para scraping de redes sociais (futuro)
+    └── run_social_scraper.py         # Executa o processo de scraping de redes sociais
+```
 
 ## Contribuição
 
@@ -74,10 +90,6 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 ### Google Geocoding API
 
 Esse projeto utiliza a Google Geocoding API para converter endereços em coordenadas geográficas. Para utilizar essa funcionalidade, você precisará de uma chave de API do Google. Siga as instruções [aqui](https://developers.google.com/maps/documentation/geocoding/get-api-key) para obter a sua chave.
-
-### Wayback Machine
-
-Esse projeto possui integração com a Wayback Machine, um serviço que permite acessar versões antigas de sites, para realizar análises históricas.
 
 ### Mudanças na Estrutura HTML
 
