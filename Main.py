@@ -2,7 +2,7 @@ import subprocess
 import sys
 
 def main():
-    print("=== Web Scraping Ocorrências Urbanas na cidade de Bauru ===")
+    print("=== Web Scraping de Ocorrências Urbanas na cidade de Bauru ===")
     print("1 - Scraping de sites de notícias (G1, Band e 94FM)")
     print("2 - Scraping de redes sociais (X)")
     print("0 - Sair")

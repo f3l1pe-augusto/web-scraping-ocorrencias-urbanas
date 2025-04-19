@@ -4,7 +4,7 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 ## Imagem do projeto
 
-![img.png](assets/img.png)
+![img.png](images/img.png)
 
 ## Sites suportados
 
