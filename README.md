@@ -73,8 +73,8 @@ web-scraping-ocorrencias-urbanas/
 │       ├── __init__.py
 │       └── Util.py                # Funções utilitárias para o projeto (limpeza, formatação, extração de coordenadas, etc)
 └── social_scraper/
-└── __init__.py                # Estrutura inicial para scraping de redes sociais (futuro)
-    └── run_social_scraper.py         # Executa o processo de scraping de redes sociais
+└── __init__.py                    # Estrutura inicial para scraping de redes sociais (futuro)
+    └── run_social_scraper.py      # Executa o processo de scraping de redes sociais
 ```
 
 ## Contribuição
