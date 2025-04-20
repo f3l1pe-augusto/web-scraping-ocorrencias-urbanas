@@ -50,9 +50,14 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
     python Main.py
     ```
 
-2. Insira as ocorrências pela qual deseja filtrar as notícias quando solicitado pelo script. 
+2. Escolha uma das opções do menu:
+    - `1` para fazer scraping de notícias
+    - `2` para fazer scraping de redes sociais
+    - `3` para sair do programa
 
-3. As notícias filtradas serão salvas automaticamente num arquivo CSV na pasta `data`, permitindo análise posterior dos dados extraídos.
+3. Siga as instruções na tela para realizar o scraping.
+
+4. Os dados extraídos pelo scraper de notícias serão salvos num arquivo CSV na pasta `scraper_core/data/`, enquanto os dados extraídos pelo scraper de redes sociais serão salvos na pasta `social_scraper/data/`.
 
 ## Estrutura do Projeto
 

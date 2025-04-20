@@ -7,7 +7,7 @@ from datetime import datetime
 from configparser import ConfigParser, NoSectionError, NoOptionError
 from random import randint
 
-MINIMUM_TWEETS = 1000
+MINIMUM_TWEETS = 10
 COOKIES = 'cookies.json'
 QUERY = 'chatgpt'
 
@@ -39,7 +39,12 @@ except NoSectionError:
 except NoOptionError as e:
     raise ValueError(f"{datetime.now()} - A chave {e.option} não foi encontrada na seção [X] do arquivo config.ini.")
 
-with open('tweets.csv', 'w', newline='') as file:
+output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../data'))
+os.makedirs(output_dir, exist_ok=True)
+
+output_file = os.path.join(output_dir, 'tweets.csv')
+
+with open(output_file, 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['tweet_count', 'username', 'text', 'created_at', 'retweets', 'likes'])
 
@@ -97,7 +102,7 @@ async def run():
                 tweet.favorite_count,
             ]
 
-            with open('tweets.csv', 'a', newline='') as file:
+            with open(output_file, 'a', newline='') as file:
                 writer = csv.writer(file)
                 writer.writerow(tweet_data)
 
