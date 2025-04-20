@@ -97,6 +97,12 @@ web-scraping-ocorrencias-urbanas/
 
 Esse projeto utiliza a Google Geocoding API para converter endereços em coordenadas geográficas. Para utilizar essa funcionalidade, você precisará de uma chave de API do Google. Siga as instruções [aqui](https://developers.google.com/maps/documentation/geocoding/get-api-key) para obter a sua chave.
 
+Após obter a chave, você deve adicioná-la ao arquivo .env na raiz do projeto, com o seguinte formato:
+
+```plaintext
+GOOGLE_MAPS_API_KEY=sua_chave_aqui
+```
+
 ### Mudanças na Estrutura HTML
 
 As páginas web podem alterar a sua estrutura HTML ao longo do tempo, o que pode ocasionar erros no scraper. Caso isso ocorra, será necessário atualizar o código para refletir as novas mudanças na estrutura das páginas. Fique atento a possíveis falhas na extração de dados e revise o código conforme necessário.
