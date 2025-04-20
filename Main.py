@@ -12,7 +12,7 @@ def main():
     if choice == "1":
         subprocess.run([sys.executable, "scraper_core/run_news_scraper.py"])
     elif choice == "2":
-        print("Módulo de redes sociais ainda não implementado.")
+        subprocess.run([sys.executable, "social_scraper/run_social_scraper.py"])
     elif choice == "0":
         print("Encerrando o programa.")
     else:

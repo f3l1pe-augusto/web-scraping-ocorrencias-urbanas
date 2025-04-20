@@ -6,3 +6,4 @@ pandas~=2.2.3
 dateparser~=1.2.0
 requests~=2.32.3
 python-dotenv~=1.0.1
+twikit~=2.3.3
