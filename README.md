@@ -1,6 +1,6 @@
 # Web Scraping de Ocorrências Urbanas
 
-Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que visa fazer um levantamento de ocorrências urbanas que acontecem na cidade de Bauru-SP, utilizando como fonte de dados vários portais de notícias locais e redes sociais. Para isso, foram utilizadas técnicas de computação e ciência de dados com intuito de identificar informações e dados relevantes que indiquem tais ocorrências. Os dados foram extraídos utilizando a linguagem Python e as bibliotecas BeautifulSoup e Selenium, as ocorrências extraídas num arquivo CSV serão utilizadas para análise posterior. Após analisar os dados, o objetivo final será a disponibilização do conjunto de dados coletado e a criação de um Sistema de Informação Geográfica (SIG) que permita visualizar as ocorrências urbanas num mapa da cidade de Bauru, com o intuito de auxiliar tomadas de decisões baseadas em dados.
+Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que visa fazer um levantamento de ocorrências urbanas que acontecem na cidade de Bauru-SP, utilizando como fonte de dados vários portais de notícias locais e redes sociais. Para isso, foram utilizadas técnicas de computação e ciência de dados com intuito de identificar informações e dados relevantes que indiquem tais ocorrências. Os dados foram extraídos utilizando a linguagem Python e principalmente as bibliotecas BeautifulSoup, Selenium e Twikit, as ocorrências extraídas em arquivos CSV serão utilizadas para análise posterior. Após analisar os dados, o objetivo final será a disponibilização do conjunto de dados coletado e a criação de um Sistema de Informação Geográfica (SIG) que permita visualizar as ocorrências urbanas num mapa da cidade de Bauru, com o intuito de auxiliar tomadas de decisões baseadas em dados.
 
 ## Menu inicial
 
@@ -15,12 +15,6 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 ## Redes sociais suportadas
 
 - [X (Twitter)](https://x.com/)
-
-## Requisitos
-
-- Python 3.x
-- Google Chrome
-- ChromeDriver
 
 ## Instalação
 
@@ -40,8 +34,6 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
     ```sh
     pip install -r requirements.txt
     ```
-
-4. Baixe o [ChromeDriver](https://developer.chrome.com/docs/chromedriver/downloads?hl=pt-br) e adicione o caminho para o arquivo executável ao seu PATH.
 
 ## Uso
 
@@ -101,6 +93,10 @@ web-scraping-ocorrencias-urbanas/
 
 ## Observações
 
+### ChromeDriver
+
+Baixe o [ChromeDriver](https://developer.chrome.com/docs/chromedriver/downloads?hl=pt-br) e adicione o caminho para o arquivo executável ao seu PATH.
+
 ### Twikit
 
 O projeto utiliza a biblioteca gratuita e de código aberto [Twikit](https://github.com/d60/twikit) para realizar scraping na rede social X (Twitter). Para instalar a biblioteca, utilize o seguinte comando:
@@ -119,15 +115,17 @@ Após obter a chave, você deve adicioná-la ao arquivo .env na raiz do projeto,
 GOOGLE_MAPS_API_KEY=sua_chave_aqui
 ```
 
-### Mudanças na Estrutura HTML das páginas e X (Twitter)
+### Mudanças na Estrutura HTML das páginas
 
 As páginas web podem alterar a sua estrutura HTML ao longo do tempo, o que pode ocasionar erros no scraper. Caso isso ocorra, será necessário atualizar o código para refletir as novas mudanças na estrutura das páginas. Fique atento a possíveis falhas na extração de dados e reveja o código conforme necessário.
+
+### Política de acesso a dados do X (Twitter)
 
 A rede social X (Twitter) pode alterar as suas políticas de acesso e scraping, o que pode afetar a funcionalidade do scraper. Esteja ciente de que o uso de scraping em redes sociais pode violar os Termos de Serviço da plataforma. É recomendável revir as políticas de uso da X (Twitter) antes de utilizar o scraper.
 
 ### Aviso Legal
 
-Este projeto foi desenvolvido apenas para fins educacionais e não deve ser utilizado para coletar dados de sites sem a permissão dos seus proprietários. O uso indevido deste projeto é de responsabilidade do usuário.
+Este projeto foi desenvolvido apenas para fins educacionais e não deve ser utilizado para coletar dados de sites e redes sociais sem a permissão dos seus proprietários. O uso indevido deste projeto é de responsabilidade do usuário.
 
 ## Licença
 
