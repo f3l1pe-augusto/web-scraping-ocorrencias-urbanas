@@ -106,7 +106,7 @@ web-scraping-ocorrencias-urbanas/
 O projeto utiliza a biblioteca gratuita e de código aberto [Twikit](https://github.com/d60/twikit) para realizar scraping na rede social X (Twitter). Para instalar a biblioteca, utilize o seguinte comando:
 
 ```sh
-  pip install twikit
+pip install twikit
  ```
 
 ### Google Geocoding API
