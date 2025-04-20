@@ -45,7 +45,7 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 2. Escolha uma das opções do menu:
     - `1` para fazer scraping de notícias
     - `2` para fazer scraping de redes sociais
-    - `3` para sair do programa
+    - `0` para sair do programa
 
 3. Siga as instruções na tela para realizar o scraping.
 
