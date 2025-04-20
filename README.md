@@ -1,6 +1,6 @@
 # Web Scraping de Ocorrências Urbanas
 
-Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que visa fazer um levantamento de ocorrências urbanas que acontecem na cidade de Bauru-SP, utilizando como fonte de dados vários portais de noticias locais e redes sociais. Para isso, foram utilizadas técnicas de computação e ciência de dados com intuito de identificar informações e dados relevantes que indiquem tais ocorrências. Os dados foram extraídos utilizando a linguagem Python e as bibliotecas BeautifulSoup e Selenium, as ocorrências extraídas num arquivo CSV serão utilizadas para análise posterior. Após analisar os dados, o objetivo final será a disponiblização do conjunto de dados coletado e a criação de um Sistema de Informação Geográfica (SIG) que permita visualizar as ocorrências urbanas num mapa da cidade de Bauru, com o intuito de auxiliar tomadas de decisões baseadas em dados.
+Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que visa fazer um levantamento de ocorrências urbanas que acontecem na cidade de Bauru-SP, utilizando como fonte de dados vários portais de notícias locais e redes sociais. Para isso, foram utilizadas técnicas de computação e ciência de dados com intuito de identificar informações e dados relevantes que indiquem tais ocorrências. Os dados foram extraídos utilizando a linguagem Python e as bibliotecas BeautifulSoup e Selenium, as ocorrências extraídas num arquivo CSV serão utilizadas para análise posterior. Após analisar os dados, o objetivo final será a disponibilização do conjunto de dados coletado e a criação de um Sistema de Informação Geográfica (SIG) que permita visualizar as ocorrências urbanas num mapa da cidade de Bauru, com o intuito de auxiliar tomadas de decisões baseadas em dados.
 
 ## Menu inicial
 
@@ -14,7 +14,7 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 ## Redes sociais suportadas
 
-- [ X](https://x.com/) (em breve)
+- [X (Twitter)](https://x.com/)
 
 ## Requisitos
 
@@ -62,25 +62,28 @@ web-scraping-ocorrencias-urbanas/
 ├── requirements.txt                # Lista de dependências do projeto
 ├── README.md                       # Documentação do projeto
 ├── LICENSE                         # Licença de uso
+├── images/                         # Pasta com as imagens do projeto
+│   ├── img.png                     # Imagem do menu inicial
 ├── scraper_core/                   # Módulo principal de scraping de notícias
 │   ├── __init__.py
 │   ├── run_news_scraper.py         # Executa o processo de scraping de notícias
-│   ├── data/
-│   │   └── df_all_news.csv         # Dados coletados em formato CSV
 │   ├── log/
 │   │   ├── __init__.py
 │   │   └── LoggerConfig.py         # Configuração de logs para monitoramento e debug
 │   ├── usecase/
 │   │   ├── __init__.py
-│   │   └── GetNewsUseCase.py      # Caso de uso principal para scraping das fontes de notícias
+│   │   └── GetNewsUseCase.py      # Caso de uso principal para scraping dos portais de notícias
 │   └── util/
 │       ├── __init__.py
 │       └── Util.py                # Funções utilitárias para o projeto (limpeza, formatação, extração de coordenadas, etc)
 └── social_scraper/                # Estrutura inicial para scraping de redes sociais
-└── __init__.py                    
-    └── run_social_scraper.py      # Executa o processo de scraping de redes sociais
-├── images/                        # Pasta com as imagens do projeto
-│   ├── img.png                    # Imagem do menu inicial
+    ├── __init__.py
+    ├── run_social_scraper.py      # Executa o processo de scraping de redes sociais
+    ├── config/
+    │   └── config.py              # Configuração das credenciais do X (Twitter)
+    ├── usecase/
+    │   ├── __init__.py
+    │   └── GetTweetsUseCase.py    # Caso de uso principal para scraping das redes sociais
 ```
 
 ## Contribuição
@@ -93,6 +96,14 @@ web-scraping-ocorrencias-urbanas/
 
 ## Observações
 
+### Twikit
+
+O projeto utiliza a biblioteca gratuita e de código aberto [Twikit](https://github.com/d60/twikit) para realizar scraping na rede social X (Twitter). Para instalar a biblioteca, utilize o seguinte comando:
+
+```sh
+  pip install twikit
+ ```
+
 ### Google Geocoding API
 
 Esse projeto utiliza a Google Geocoding API para converter endereços em coordenadas geográficas. Para utilizar essa funcionalidade, você precisará de uma chave de API do Google. Siga as instruções [aqui](https://developers.google.com/maps/documentation/geocoding/get-api-key) para obter a sua chave.
@@ -103,9 +114,11 @@ Após obter a chave, você deve adicioná-la ao arquivo .env na raiz do projeto,
 GOOGLE_MAPS_API_KEY=sua_chave_aqui
 ```
 
-### Mudanças na Estrutura HTML
+### Mudanças na Estrutura HTML das páginas e X (Twitter)
 
-As páginas web podem alterar a sua estrutura HTML ao longo do tempo, o que pode ocasionar erros no scraper. Caso isso ocorra, será necessário atualizar o código para refletir as novas mudanças na estrutura das páginas. Fique atento a possíveis falhas na extração de dados e revise o código conforme necessário.
+As páginas web podem alterar a sua estrutura HTML ao longo do tempo, o que pode ocasionar erros no scraper. Caso isso ocorra, será necessário atualizar o código para refletir as novas mudanças na estrutura das páginas. Fique atento a possíveis falhas na extração de dados e reveja o código conforme necessário.
+
+A rede social X (Twitter) pode alterar as suas políticas de acesso e scraping, o que pode afetar a funcionalidade do scraper. Esteja ciente de que o uso de scraping em redes sociais pode violar os Termos de Serviço da plataforma. É recomendável revir as políticas de uso da X (Twitter) antes de utilizar o scraper.
 
 ### Aviso Legal
 
