@@ -20,9 +20,9 @@ class LoggerConfig:
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
 
-        os.makedirs('../log', exist_ok=True)
+        os.makedirs('scraper_core/log', exist_ok=True)
 
-        file_handler = logging.FileHandler('../log/news_data.log', encoding='utf-8')
+        file_handler = logging.FileHandler('scraper_core/log/scraper.log', encoding='utf-8')
         file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
 
         self.logger = logging.getLogger()
