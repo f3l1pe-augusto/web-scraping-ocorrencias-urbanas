@@ -14,10 +14,13 @@ TITLE_NOT_FOUND = "Título não encontrado"
 SUBTITLE_NOT_FOUND = "Subtítulo não encontrado"
 DATE_NOT_FOUND = "Data não encontrada"
 
-def configure_driver(headless=False): # Headless mode define se o navegador será exibido ou não
+def configure_driver(headless=True):
     options = Options()
     if headless:
         options.add_argument("--headless")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
     return webdriver.Chrome(options=options)
 
 def load_page(driver, url, log, clicks=NUM_CLICKS):
@@ -25,6 +28,8 @@ def load_page(driver, url, log, clicks=NUM_CLICKS):
     current_url = driver.current_url
     log.info(f"Título da página: {driver.title}")
     log.info("Carregando notícias...")
+
+    time.sleep(3)
 
     html_pages = [driver.page_source]
 
@@ -46,7 +51,7 @@ def load_page(driver, url, log, clicks=NUM_CLICKS):
                 driver.execute_script("arguments[0].scrollIntoView(true);", load_more_button[0])
                 driver.execute_script("arguments[0].click();", load_more_button[0])
                 log.info(f"Carregando mais notícias... Aguarde... Click: {click + 1}")
-                time.sleep(3)
+                time.sleep(10)
                 if "94fm" in current_url:
                     html_pages.append(driver.page_source)
             else:
