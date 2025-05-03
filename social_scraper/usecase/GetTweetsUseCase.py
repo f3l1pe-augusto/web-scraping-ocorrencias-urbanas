@@ -7,9 +7,24 @@ from datetime import datetime
 from configparser import ConfigParser, NoSectionError, NoOptionError
 from random import randint
 
-MINIMUM_TWEETS = 10
+MINIMUM_TWEETS = 1000
 COOKIES = 'cookies.json'
-QUERY = 'chatgpt'
+QUERY = 'bauru (roubo OR roubado OR roubada OR furto OR furtado OR furtada OR luz OR energia OR iluminação OR água OR buraco OR calçada OR semáforo OR radar OR árvore OR esgoto OR crime OR criminoso OR criminosa OR assalto OR assaltante OR alagamento OR poste OR enchente OR enxurrada OR queimada OR cratera OR preso OR presa OR interditado OR interdição OR pavimento OR asfalto OR erosão OR dengue OR estupro OR violência OR morre OR morte OR morto OR morta OR obra OR reparo OR baleado OR baleada OR trânsito OR acidente OR temporal OR tempestade OR polícia OR chuva OR crime OR dae OR emdurb OR agressão OR cpfl OR assédio OR prisão OR upa OR ubs OR hospital OR ônibus OR pedofilia OR homicídio OR operação OR delegacia OR samu OR tráfico OR traficante OR droga OR maconha OR cocaína OR crack OR fogo OR fumaça OR poluição OR lixo OR cobra OR escorpião OR abuso OR incêndio OR matar OR matou OR agredida OR agredido OR transporte OR bandido OR interrupção OR corpo OR entulho OR descarte OR abandonado OR feminicídio OR bombeiro OR queda OR batida OR atropelamento OR congestionamento OR reclamação OR reclamam OR barulho OR prefeitura OR sinalização OR desabamento OR desmoronamento OR deslizamento OR falta de OR carro OR moto OR pedestre OR caminhão OR bicicleta) lang:pt until:2025-05-02 since:2020-01-01'
+SEARCH_TERMS = [
+    'roubo', 'roubado', 'roubada', 'furto', 'furtado', 'furtada', 'luz', 'energia', 'iluminação', 'água', 'buraco', 'calçada',
+    'semáforo', 'radar', 'árvore', 'esgoto', 'crime', 'criminoso', 'criminosa', 'assalto', 'assaltante',
+    'alagamento', 'poste', 'enchente', 'enxurrada', 'queimada', 'cratera', 'preso',
+    'presa', 'interditado', 'interdição', 'pavimento', 'asfalto', 'erosão', 'dengue',
+    'estupro', 'violência', 'morre', 'morte', 'morto', 'morta', 'obra', 'reparo', 'baleado', 'baleada', 'trânsito',
+    'acidente', 'temporal', 'tempestade', 'polícia', 'chuva', 'crime', 'dae',
+    'emdurb', 'agressão', 'cpfl', 'assédio', 'prisão', 'upa', 'ubs', 'hospital', 'ônibus',
+    'pedofilia', 'homicídio', 'operação', 'delegacia', 'samu', 'tráfico', 'traficante', 'droga', 'maconha', 'cocaína', 'crack',
+    'fogo', 'fumaça', 'poluição', 'lixo', 'cobra', 'escorpião', 'abuso', 'incêndio', 'matar', 'matou'
+    'agredida', 'agredido', 'transporte', 'bandido', 'interrupção', 'corpo',
+    'entulho', 'descarte', 'abandonado', 'feminicídio', 'bombeiro', 'queda',
+    'batida', 'atropelamento', 'congestionamento', 'reclamação', 'reclamam', 'barulho', 'prefeitura', 'sinalização',
+    'desabamento', 'desmoronamento', 'deslizamento', 'falta de', 'carro', 'moto', 'pedestre', 'bicicleta', 'caminhão',
+]
 
 async def get_tweets(tweets):
     if tweets is None:
@@ -93,6 +108,9 @@ async def run():
 
         for tweet in tweets:
             tweet_count += 1
+            searching_terms = {term for term in SEARCH_TERMS if term in tweet.text.lower()}
+            search_term = ', '.join(sorted(searching_terms)) if searching_terms else 'Nenhum'
+
             tweet_data = [
                 tweet_count,
                 tweet.user.name,
@@ -100,6 +118,7 @@ async def run():
                 tweet.created_at,
                 tweet.retweet_count,
                 tweet.favorite_count,
+                search_term
             ]
 
             with open(output_file, 'a', newline='') as file:
