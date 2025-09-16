@@ -19,6 +19,7 @@ DATE_NOT_FOUND = "Data não encontrada"
 def configure_driver(headless=True):
   options = Options()
   if headless:
+    options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
