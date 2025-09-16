@@ -93,9 +93,9 @@ web-scraping-ocorrencias-urbanas/
 
 ## Observações
 
-### ChromeDriver
+### Google Chrome e ChromeDriver
 
-Para o scraping em portais de notícias locais são usados o navegador Google Chrome e o ChromeDriver baixe o [ChromeDriver](https://developer.chrome.com/docs/chromedriver/downloads?hl=pt-br) e adicione o caminho para o arquivo executável ao seu PATH.
+Para o scraping em portais de notícias locais são usados o navegador Google Chrome e o ChromeDriver. O ChromeDriver é gerenciado automaticamente pela biblioteca `webdriver_manager`, que está listada no arquivo `requirements.txt`. Portanto, não é necessário fazer o download manual do ChromeDriver.
 
 ### Twikit
 
