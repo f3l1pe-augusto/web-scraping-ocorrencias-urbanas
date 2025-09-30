@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.service import Service
 
 from scraper_core.util.Util import get_ceps, get_coordinates, extract_addresses, remove_semicolons, remove_duplicate_spaces
 
-NUM_CLICKS = 100 # Número de cliques na página para carregar mais notícias
+NUM_CLICKS = 150 # Número de cliques na página para carregar mais notícias
 TITLE_NOT_FOUND = "Título não encontrado"
 SUBTITLE_NOT_FOUND = "Subtítulo não encontrado"
 DATE_NOT_FOUND = "Data não encontrada"
@@ -72,6 +72,20 @@ def close_cookie_banner_g1(driver, log):
     cookie_banner.click()
   except Exception as e:
     log.info(f"Banner de cookies não encontrado ou aceito: {e}")
+
+def get_g1_published_date(driver, link, log):
+  try:
+    driver.get(link)
+    time.sleep(2)
+    page_content = driver.page_source
+    soup = BeautifulSoup(page_content, 'lxml')
+
+    published_date = soup.find('time', {'itemprop': 'datePublished'}).text if soup.find('time', {'itemprop': 'datePublished'}) else DATE_NOT_FOUND
+
+    return published_date
+  except Exception as e:
+    log.error(f"Erro ao recuperar a data de publicação da notícia: {e}")
+    return DATE_NOT_FOUND
 
 def get_band_subtitle(driver, link, log):
   try:
@@ -165,7 +179,7 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
         title = single_news.find('p', {'elementtiming': 'text-csr'}).text if single_news.find('p', {'elementtiming': 'text-csr'}) else TITLE_NOT_FOUND
         subtitle = single_news.find('div', class_='feed-post-body-resumo').text if single_news.find('div', class_='feed-post-body-resumo') else SUBTITLE_NOT_FOUND
         link = single_news.find('a', class_='feed-post-link')['href'] if single_news.find('a', class_='feed-post-link') else "#"
-        published_date = single_news.find('span', class_='feed-post-datetime').text if single_news.find('span', class_='feed-post-datetime') else DATE_NOT_FOUND
+        published_date = ''
       elif site == '94fm':
         title = single_news.find('h3').text.strip() if single_news.find('h3') else TITLE_NOT_FOUND
         subtitle = ''
@@ -188,6 +202,9 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
       bauru_category = "bauru" in categories.lower() if site == '94fm' else False
 
       if search_term and (bauru or bauru_category):
+
+        if site == 'g1':
+          published_date = get_g1_published_date(driver, link, log)
 
         parsed_date = dateparser.parse(published_date)
         if parsed_date:
