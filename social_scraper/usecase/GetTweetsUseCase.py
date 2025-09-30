@@ -7,7 +7,7 @@ from datetime import datetime
 from configparser import ConfigParser, NoSectionError, NoOptionError
 from random import randint
 
-MINIMUM_TWEETS = 1000
+MINIMUM_TWEETS = 100
 COOKIES = 'cookies.json'
 QUERY = 'bauru (roubo OR roubado OR roubada OR furto OR furtado OR furtada OR luz OR energia OR iluminação OR água OR buraco OR calçada OR semáforo OR radar OR árvore OR esgoto OR crime OR criminoso OR criminosa OR assalto OR assaltante OR alagamento OR poste OR enchente OR enxurrada OR queimada OR cratera OR preso OR presa OR interditado OR interdição OR pavimento OR asfalto OR erosão OR dengue OR estupro OR violência OR morre OR morte OR morto OR morta OR obra OR reparo OR baleado OR baleada OR trânsito OR acidente OR temporal OR tempestade OR polícia OR chuva OR crime OR dae OR emdurb OR agressão OR cpfl OR assédio OR prisão OR upa OR ubs OR hospital OR ônibus OR pedofilia OR homicídio OR operação OR delegacia OR samu OR tráfico OR traficante OR droga OR maconha OR cocaína OR crack OR fogo OR fumaça OR poluição OR lixo OR cobra OR escorpião OR abuso OR incêndio OR matar OR matou OR agredida OR agredido OR transporte OR bandido OR interrupção OR corpo OR entulho OR descarte OR abandonado OR feminicídio OR bombeiro OR queda OR batida OR atropelamento OR congestionamento OR reclamação OR reclamam OR barulho OR prefeitura OR sinalização OR desabamento OR desmoronamento OR deslizamento OR falta de OR carro OR moto OR pedestre OR caminhão OR bicicleta) lang:pt until:2025-05-02 since:2020-01-01'
 SEARCH_TERMS = [

@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.service import Service
 
 from scraper_core.util.Util import get_ceps, get_coordinates, extract_addresses, remove_semicolons, remove_duplicate_spaces
 
-NUM_CLICKS = 10 # Número de cliques na página para carregar mais notícias
+NUM_CLICKS = 100 # Número de cliques na página para carregar mais notícias
 TITLE_NOT_FOUND = "Título não encontrado"
 SUBTITLE_NOT_FOUND = "Subtítulo não encontrado"
 DATE_NOT_FOUND = "Data não encontrada"
@@ -80,7 +80,7 @@ def get_band_subtitle(driver, link, log):
     page_content = driver.page_source
     soup = BeautifulSoup(page_content, 'lxml')
 
-    subtitle = soup.find('h2', class_='subtitle').text if soup.find('h2', class_='subtitle') else SUBTITLE_NOT_FOUND
+    subtitle = soup.find('p', class_='subtitle').text if soup.find('p', class_='subtitle') else SUBTITLE_NOT_FOUND
 
     return subtitle
   except Exception as e:
@@ -157,7 +157,7 @@ def parse_news(html_content, search_terms, log, site, driver, google_maps_api_ke
   for index, single_news in enumerate(all_news, start=1):
     try:
       if site == 'band':
-        title = single_news.find('h2', class_='title').text if single_news.find('h2', class_='title') else TITLE_NOT_FOUND
+        title = single_news.find('h3', class_='title').text if single_news.find('h3', class_='title') else TITLE_NOT_FOUND
         subtitle = ''
         link = single_news.find('a', class_='link')['href'] if single_news.find('a', class_='link') else "#"
         published_date = single_news.find('time', class_='published').text if single_news.find('time', class_='published') else DATE_NOT_FOUND
