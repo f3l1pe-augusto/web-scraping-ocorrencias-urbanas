@@ -11,7 +11,7 @@ from selenium.webdriver.chrome.service import Service
 
 from scraper_core.util.Util import get_ceps, get_coordinates, extract_addresses, remove_semicolons, remove_duplicate_spaces
 
-NUM_CLICKS = 150 # Número de cliques na página para carregar mais notícias
+NUM_CLICKS = 100 # Número de cliques na página para carregar mais notícias
 TITLE_NOT_FOUND = "Título não encontrado"
 SUBTITLE_NOT_FOUND = "Subtítulo não encontrado"
 DATE_NOT_FOUND = "Data não encontrada"

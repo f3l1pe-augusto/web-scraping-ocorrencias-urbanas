@@ -40,7 +40,7 @@ def main():
 
   os.makedirs('scraper_core/data', exist_ok=True)
 
-  df_all_news_path = 'scraper_core/data/df_all_news_2025.csv'
+  df_all_news_path = 'scraper_core/data/df_all_news.csv'
 
   pd.DataFrame(df_all_news).to_csv(df_all_news_path, index=False)
 
