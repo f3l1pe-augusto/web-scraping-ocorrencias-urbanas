@@ -14,7 +14,7 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 ## Redes sociais suportadas
 
-- [X (Twitter)](https://x.com/)
+- [X (antigo Twitter)](https://x.com/)
 
 ## Instalação
 
@@ -119,9 +119,9 @@ GOOGLE_MAPS_API_KEY=sua_chave_aqui
 
 As páginas web podem alterar a sua estrutura HTML ao longo do tempo, o que pode ocasionar erros no scraper. Caso isso ocorra, será necessário atualizar o código para refletir as novas mudanças na estrutura das páginas. Fique atento a possíveis falhas na extração de dados e reveja o código conforme necessário.
 
-### Política de acesso a dados do X (Twitter)
+### Política de acesso a dados do X
 
-A rede social X (Twitter) pode alterar as suas políticas de acesso e scraping, o que pode afetar a funcionalidade do scraper. Esteja ciente de que o uso de scraping em redes sociais pode violar os Termos de Serviço da plataforma. É recomendável revir as políticas de uso da X (Twitter) antes de utilizar o scraper.
+A rede social X pode alterar as suas políticas de acesso e scraping, o que pode afetar a funcionalidade do scraper. Esteja ciente de que o uso de scraping em redes sociais pode violar os Termos de Serviço da plataforma. É recomendável rever as políticas de uso da X antes de utilizar o scraper.
 
 ### Aviso Legal
 
