@@ -51,7 +51,7 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 4. Os dados extraídos pelo scraper de notícias serão salvos num arquivo CSV na pasta `scraper_core/data/`, enquanto os dados extraídos pelo scraper de redes sociais serão salvos na pasta `social_scraper/data/`.
 
-## Estrutura do Projeto
+## Estrutura do projeto
 
 ```plaintext
 web-scraping-ocorrencias-urbanas/
@@ -115,7 +115,7 @@ Após obter a chave, você deve adicioná-la ao arquivo .env na raiz do projeto,
 GOOGLE_MAPS_API_KEY=sua_chave_aqui
 ```
 
-### Mudanças na Estrutura HTML das páginas
+### Mudanças na estrutura HTML das páginas
 
 As páginas web podem alterar a sua estrutura HTML ao longo do tempo, o que pode ocasionar erros no scraper. Caso isso ocorra, será necessário atualizar o código para refletir as novas mudanças na estrutura das páginas. Fique atento a possíveis falhas na extração de dados e reveja o código conforme necessário.
 
