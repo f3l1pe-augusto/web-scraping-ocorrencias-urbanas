@@ -51,38 +51,6 @@ Este projeto faz parte de uma iniciação científica feita na Unesp Bauru, que 
 
 4. Os dados extraídos pelo scraper de notícias serão salvos num arquivo CSV na pasta `scraper_core/data/`, enquanto os dados extraídos pelo scraper de redes sociais serão salvos na pasta `social_scraper/data/`.
 
-## Estrutura do projeto
-
-```plaintext
-web-scraping-ocorrencias-urbanas/
-├── Main.py                         # Script principal com menu de execução
-├── requirements.txt                # Lista de dependências do projeto
-├── README.md                       # Documentação do projeto
-├── LICENSE                         # Licença de uso
-├── images/                         # Pasta com as imagens do projeto
-│   ├── img.png                     # Imagem do menu inicial
-├── scraper_core/                   # Módulo principal de scraping de notícias
-│   ├── __init__.py
-│   ├── run_news_scraper.py         # Executa o processo de scraping de notícias
-│   ├── log/
-│   │   ├── __init__.py
-│   │   └── LoggerConfig.py         # Configuração de logs para monitoramento e debug
-│   ├── usecase/
-│   │   ├── __init__.py
-│   │   └── GetNewsUseCase.py      # Caso de uso principal para scraping dos portais de notícias
-│   └── util/
-│       ├── __init__.py
-│       └── Util.py                # Funções utilitárias para o projeto (limpeza, formatação, extração de coordenadas, etc)
-└── social_scraper/                # Estrutura inicial para scraping de redes sociais
-    ├── __init__.py
-    ├── run_social_scraper.py      # Executa o processo de scraping de redes sociais
-    ├── config/
-    │   └── config.py              # Configuração das credenciais do X (Twitter)
-    ├── usecase/
-    │   ├── __init__.py
-    │   └── GetTweetsUseCase.py    # Caso de uso principal para scraping das redes sociais
-```
-
 ## Contribuição
 
 1. Faça um fork do projeto.
